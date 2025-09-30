@@ -512,6 +512,18 @@
 		<!-- Section 1: KineMask Overview -->
 		<section class="hero-section">
 			<div class="wrap">
+				<!-- Theme Toggle -->
+				<div style="position: absolute; top: 20px; right: 20px; z-index: 1000;">
+					<button
+						id="toggleTheme"
+						style="padding: 12px 24px; min-width: 120px; background: var(--card); color: var(--text); border: 1px solid var(--grid); border-radius: 8px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s all ease;"
+						title="Toggle theme"
+					>
+						<span id="theme-icon">🌙</span>
+						<span id="theme-text">Dark</span>
+					</button>
+				</div>
+				
 				<h1 class="hero-title"><span class="kine">Kine</span>Mask: Learning to Generate Object&nbsp;Interactions</span><br>with Physics-Guided Video Diffusion</h1>
 				<p class="hero-authors">
 					<span style="color: var(--accent);">David Romero<sup>1</sup></span>, 
@@ -795,16 +807,6 @@
 							/>
 						</svg>
 					</button>
-					<span class="chip"
-						>Theme:
-						<button
-							id="toggleTheme"
-							class="chip"
-							style="margin-left: 6px"
-						>
-							Toggle
-						</button></span
-					>
 				</div>
 			</div>
 		</header>
@@ -1082,6 +1084,18 @@
 			if (saved) {
 				root.setAttribute("data-theme", saved);
 			}
+			
+			// Initialize theme button
+			const currentTheme = root.getAttribute("data-theme") || "dark";
+			const themeIcon = document.getElementById("theme-icon");
+			const themeText = document.getElementById("theme-text");
+			if (currentTheme === "light") {
+				themeIcon.textContent = "☀️";
+				themeText.textContent = "Light";
+			} else {
+				themeIcon.textContent = "🌙";
+				themeText.textContent = "Dark";
+			}
 			document
 				.getElementById("toggleTheme")
 				.addEventListener("click", () => {
@@ -1089,6 +1103,17 @@
 					const next = cur === "light" ? "dark" : "light";
 					root.setAttribute("data-theme", next);
 					localStorage.setItem("pv-theme", next);
+					
+					// Update button text and icon
+					const themeIcon = document.getElementById("theme-icon");
+					const themeText = document.getElementById("theme-text");
+					if (next === "light") {
+						themeIcon.textContent = "☀️";
+						themeText.textContent = "Light";
+					} else {
+						themeIcon.textContent = "🌙";
+						themeText.textContent = "Dark";
+					}
 				});
 
 			// Carousel functionality
