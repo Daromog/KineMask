@@ -233,7 +233,7 @@
 				padding: 18px;
 			}
 			.hero-section {
-				padding: 40px 0;
+				padding: 20px 0;
 				text-align: center;
 				border-bottom: 1px solid var(--grid);
 				margin-bottom: 40px;
@@ -336,6 +336,14 @@
 				padding: 60px 0;
 				background: var(--card);
 				border-bottom: 1px solid var(--grid);
+				padding-bottom: 20px;
+			}
+			.inline-logo {
+				height: 1em;         /* match the text height */
+				width: auto;
+				vertical-align: -0.15em; /* small nudge so it aligns with text baseline */
+				display: inline-block;
+				margin-right: .25em; /* space after logo */
 			}
 			/* Responsive adjustment only for the intro carousel section */
 			#intro-carousel {
@@ -347,6 +355,9 @@
 				text-align: center;
 				margin: 0 0 40px 0;
 				color: var(--text);
+				padding-bottom: 6px;                  /* space between text and line */
+  				border-bottom: 3px solid var(--accent); /* underline in light blue */
+				display: inline-block; /* underline just the text */
 			}
 			.carousel-container {
 				position: relative;
@@ -600,7 +611,10 @@
 			<div class="wrap">
 				<div style="max-width: 900px; margin: 0 auto 40px auto; text-align: center;">
 					<p style="font-size: 18px; line-height: 1.6; color: var(--text); margin: 0;">
-						KineMask generates realistic, physically-consistent object interaction videos from a single image and an initial motion cue. It encodes <strong style="color: var(--accent);">direction and velocity</strong> in a simple mask, combines this with high-level text guidance, and enables video diffusion models to synthesize causal, dynamic scenes with fine-grained control.
+						<img src="assets/images/logo_transparent.png" 
+             				 alt="KineMask" 
+             				 class="inline-logo">
+							 an approach for physics-guided video generation that enables realistic rigid body control and interactions. Given a <span style="color: var(--accent); font-style: italic;">single image and a specified object velocity</span>, KineMask generates videos with inferred motions and future object interactions.
 					</p>
 				</div>
 				<div class="carousel-container">
@@ -647,7 +661,7 @@
 								</div> -->
 								<div class="carousel-right">
 									<video class="carousel-video" controls preload="metadata" muted autoplay loop>
-										<source src="assets/videos/carousel_plant.mov" type="video/mp4">
+										<source src="assets/videos/carousel_olla.mov" type="video/mp4">
 									</video>
 								</div>
 							</div>
@@ -662,7 +676,7 @@
 								</div> -->
 								<div class="carousel-right">
 									<video class="carousel-video" controls preload="metadata" muted autoplay loop>
-										<source src="assets/videos/carousel_pot.mov" type="video/mp4">
+										<source src="assets/videos/carousel_plant.mov" type="video/mp4">
 									</video>
 								</div>
 							</div>
@@ -693,8 +707,8 @@
 			<div class="wrap">
 				<h2 class="carousel-title" style="font-size: 28px; font-weight: 600; margin-bottom: 40px;">Abstract</h2>
 				<div style="max-width: 800px; margin: 0 auto; text-align: justify;">
-					<p style="font-size: 18px; line-height: 1.8; color: var(--muted); margin: 0; font-weight: 400; letter-spacing: 0.3px;">
-						Recent models for video generation have achieved remarkable progress and are now deployed in film, social media production, and advertising. Beyond their creative potential, such models also hold promise as world simulators for robotics and embodied decision making. Despite strong advances, however, current approaches still struggle to generate physically plausible object interactions and lack physics-grounded control mechanisms. To address this limitation, we introduce <strong style="color: var(--accent);">KineMask</strong>, an approach for physics-guided video generation that enables realistic rigid body control, interactions, and effects. Given a single image and a specified object velocity, our method generates videos with inferred motions and future object interactions. We propose a two-stage training strategy that gradually removes future motion supervision via object masks. Using this strategy we train video diffusion models (VDMs) on synthetic scenes of simple interactions and demonstrate significant improvements of object interactions in real scenes. Furthermore, KineMask integrates low-level motion control with high-level textual conditioning via predictive scene descriptions, leading to effective support for synthesis of complex dynamical phenomena. Extensive experiments show that KineMask achieves strong improvements over recent models of comparable size. Ablation studies further highlight the complementary roles of low- and high-level conditioning in VDMs. Our code, model, and data will be made publicly available.
+					<p style="font-size: 15px; line-height: 1.5; color: var(--muted); margin: 0; font-weight: 400; letter-spacing: 0.3px;">
+						Recent models for video generation have achieved remarkable progress and are now deployed in film, social media production, and advertising. Beyond their creative potential, such models also hold promise as world simulators for robotics and embodied decision making. Despite strong advances, however, current approaches still struggle to generate physically plausible object interactions and lack physics-grounded control mechanisms. To address this limitation, we introduce <img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo">, an approach for physics-guided video generation that enables realistic rigid body control, interactions, and effects. Given a single image and a specified object velocity, our method generates videos with inferred motions and future object interactions. We propose a two-stage training strategy that gradually removes future motion supervision via object masks. Using this strategy we train video diffusion models (VDMs) on synthetic scenes of simple interactions and demonstrate significant improvements of object interactions in real scenes. Furthermore, <img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> integrates low-level motion control with high-level textual conditioning via predictive scene descriptions, leading to effective support for synthesis of complex dynamical phenomena. Extensive experiments show that our method achieves strong improvements over recent models of comparable size. Ablation studies further highlight the complementary roles of low-and high-level conditioning in VDMs.
 					</p>
 				</div>
 			</div>
@@ -1192,10 +1206,10 @@
 			}
 
 			// Auto-advance carousel every 8 seconds
-			setInterval(() => {
-				slideIndex++;
-				showSlide(slideIndex);
-			}, 8000);
+			//setInterval(() => {
+			//	slideIndex++;
+			//	showSlide(slideIndex);
+			//}, 8000);
 
 			// Make functions global for onclick handlers
 			window.changeSlide = changeSlide;
