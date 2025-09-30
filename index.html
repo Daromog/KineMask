@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>KineMask: Towards Generation of Realistic Object Interactions with Video Diffusion Models</title>
+		<style>
+			:root {
+				--bg: #0b0e13;
+				--card: #121722;
+				--muted: #9aa4b2;
+				--text: #e9eef5;
+				--accent: #7bc4ff;
+				--grid: #1b2230;
+				--btn: #1a73e8;
+				--btnText: #fff;
+			}
+			[data-theme="light"] {
+				--bg: #f6f7fb;
+				--card: #ffffff;
+				--muted: #64748b;
+				--text: #0f172a;
+				--accent: #0ea5e9;
+				--grid: #e5e7eb;
+				--btn: #0ea5e9;
+				--btnText: #fff;
+			}
+			* {
+				box-sizing: border-box;
+			}
+			body {
+				margin: 0;
+				font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI,
+					Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+				background: var(--bg);
+				color: var(--text);
+			}
+			header {
+				position: sticky;
+				top: 0;
+				z-index: 20;
+				backdrop-filter: saturate(140%) blur(8px);
+				background: color-mix(in oklab, var(--bg) 80%, transparent);
+				border-bottom: 1px solid var(--grid);
+			}
+			.wrap {
+				max-width: 1800px;
+				margin: 0 auto;
+				padding: 16px 20px;
+			}
+			h1 {
+				margin: 0;
+				font-size: 20px;
+				font-weight: 700;
+				letter-spacing: 0.2px;
+			}
+			.sub {
+				color: var(--muted);
+				font-size: 13px;
+				margin-top: 6px;
+			}
+			.control-bar {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 8px;
+				align-items: center;
+				margin-top: 12px;
+			}
+			button,
+			.chip {
+				appearance: none;
+				border: none;
+				background: var(--btn);
+				color: var(--btnText);
+				padding: 8px;
+				border-radius: 50%;
+				width: 44px;
+				height: 44px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				cursor: pointer;
+				box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+				transition: 0.2s transform;
+				font-size: 18px;
+			}
+			button:hover {
+				transform: translateY(-1px);
+			}
+			button svg {
+				width: 20px;
+				height: 20px;
+				fill: currentColor;
+			}
+			.chip {
+				background: transparent;
+				color: var(--muted);
+				border: 1px solid var(--grid);
+				border-radius: 12px;
+				width: auto;
+				height: auto;
+				padding: 8px 12px;
+				font-size: 14px;
+			}
+			.grid {
+				overflow: visible;
+				padding: 20px;
+			}
+			table {
+				width: max(800px, 100%);
+				border-collapse: separate;
+				border-spacing: 0;
+				table-layout: fixed;
+			}
+			thead th {
+				position: sticky;
+				top: 80px; /* Adjust based on header height */
+				background: var(--card);
+				z-index: 10;
+				border-bottom: 1px solid var(--grid);
+				font-size: 12px;
+				text-transform: uppercase;
+				letter-spacing: 0.06em;
+				color: var(--muted);
+				padding: 10px;
+				backdrop-filter: blur(8px);
+				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+			}
+			thead th:first-child {
+				left: 0;
+				position: sticky;
+				z-index: 15;
+				text-align: left;
+				background: var(--card);
+				backdrop-filter: blur(8px);
+				top: 80px; /* Match other header cells */
+			}
+			tbody th {
+				position: sticky;
+				left: 0;
+				background: var(--card);
+				border-right: 1px solid var(--grid);
+				text-align: left;
+				padding: 10px;
+				font-size: 14px;
+				vertical-align: top;
+				width: 300px;
+				z-index: 5;
+				backdrop-filter: blur(8px);
+			}
+			td {
+				padding: 10px;
+				border-bottom: 1px solid var(--grid);
+				background: var(--card);
+				width: 450px; /* Changed from 350px to 450px */
+				height: 300px; /* Reduced from 450px to 400px */
+				vertical-align: top; /* Add this */
+			}
+			.cell {
+				display: flex;
+				flex-direction: column;
+				gap: 2px; /* Reduced from 8px to 2px */
+				height: 100%; /* Add this */
+				justify-content: flex-end; /* Add this - pushes video to bottom */
+			}
+			video {
+				width: 100%;
+				height: 350px; /* Keep this fixed height */
+				background: #000;
+				border-radius: 12px;
+				border: 1px solid var(--grid);
+				display: block;
+				flex-shrink: 0; /* Add this - prevents video from shrinking */
+			}
+			.row-controls {
+				display: flex;
+				gap: 12px;
+				flex-wrap: wrap;
+				margin-top: 12px;
+				justify-content: center;
+			}
+			.tag {
+				font-size: 12px;
+				color: var(--muted);
+			}
+			.method-label {
+				font-size: 11px;
+				font-weight: 600;
+				color: var(--text);
+				text-align: center;
+				padding: 4px 8px;
+				background: var(--grid);
+				border-radius: 6px;
+				margin-bottom: 6px;
+				text-transform: uppercase;
+				letter-spacing: 0.5px;
+			}
+			.reference-image {
+				margin-top: 12px;
+				text-align: center;
+			}
+			.reference-img {
+				width: 100%;
+				max-width: 200px;
+				height: auto;
+				border-radius: 8px;
+				border: 1px solid var(--grid);
+				display: block;
+				margin: 0 auto;
+			}
+			.prompt-text {
+				font-size: 12px;
+				color: var(--muted);
+				margin-top: 8px;
+				padding: 8px;
+				background: var(--bg);
+				border-radius: 6px;
+				border: 1px solid var(--grid);
+				text-align: left;
+				white-space: pre-wrap;
+				line-height: 1.4;
+			}
+			.note {
+				color: var(--muted);
+				font-size: 12px;
+				margin-top: 12px;
+			}
+			.footer {
+				color: var(--muted);
+				font-size: 12px;
+				text-align: center;
+				padding: 18px;
+			}
+			.hero-section {
+				padding: 40px 0;
+				text-align: center;
+				border-bottom: 1px solid var(--grid);
+				margin-bottom: 40px;
+			}
+			.hero-title {
+				font-size: 40px;
+				font-weight: 700;
+				margin: 0 0 16px 0;
+				color: var(--text);
+				line-height: 1.1;
+			}
+			.hero-title .kine {
+				color: var(--accent);
+			}
+			.hero-subtitle {
+				font-size: 28px;
+				font-weight: 400;
+				color: var(--text);
+				margin: 0 0 12px 0;
+			}
+			.hero-authors {
+				color: var(--muted);
+				font-size: 16px;
+				margin: 0 0 8px 0;
+			}
+			.hero-status {
+				color: var(--muted);
+				font-size: 14px;
+				margin: 0 0 32px 0;
+			}
+			.hero-description {
+				font-size: 16px;
+				color: var(--text);
+				margin: 0 auto 40px auto;
+				max-width: 800px;
+				line-height: 1.6;
+			}
+			.hero-buttons {
+				display: flex;
+				gap: 16px;
+				justify-content: center;
+				margin: 0 0 40px 0;
+				flex-wrap: wrap;
+			}
+			.hero-btn {
+				display: inline-flex;
+				align-items: center;
+				gap: 8px;
+				padding: 12px 20px;
+				background: #ffffff;
+				color: #374151;
+				text-decoration: none;
+				border-radius: 12px;
+				font-size: 14px;
+				font-weight: 500;
+				transition: 0.2s all ease;
+				box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+				border: 1px solid #e5e7eb;
+			}
+			.hero-btn:hover {
+				transform: translateY(-1px);
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+				background: #f9fafb;
+			}
+			.hero-btn svg {
+				width: 16px;
+				height: 16px;
+				fill: currentColor;
+			}
+			[data-theme="light"] .hero-btn {
+				background: #ffffff;
+				color: #374151;
+				border: 1px solid #e5e7eb;
+			}
+			[data-theme="light"] .hero-btn:hover {
+				background: #f9fafb;
+			}
+			.carousel-section {
+				padding: 60px 0;
+				background: var(--card);
+				border-bottom: 1px solid var(--grid);
+			}
+			.carousel-title {
+				font-size: 32px;
+				font-weight: 700;
+				text-align: center;
+				margin: 0 0 40px 0;
+				color: var(--text);
+			}
+			.carousel-container {
+				position: relative;
+				max-width: 1000px;
+				margin: 0 auto;
+				overflow: hidden;
+			}
+			.carousel-wrapper {
+				display: flex;
+				transition: transform 0.5s ease-in-out;
+			}
+			.carousel-slide {
+				min-width: 100%;
+				padding: 0 20px;
+				box-sizing: border-box;
+			}
+			.carousel-content {
+				display: flex;
+				gap: 40px;
+				align-items: center;
+				max-width: 900px;
+				margin: 0 auto;
+			}
+			.carousel-left {
+				flex: 1;
+				padding-right: 20px;
+			}
+			.carousel-right {
+				flex: 1;
+			}
+			.carousel-video {
+				width: 100%;
+				height: 300px;
+				border-radius: 12px;
+				background: #ffffff;
+				border: 0px solid var(--grid);
+			}
+			.carousel-description {
+				font-size: 16px;
+				line-height: 1.6;
+				color: var(--text);
+			}
+			.carousel-nav {
+				display: flex;
+				justify-content: center;
+				gap: 12px;
+				margin-top: 30px;
+			}
+			.carousel-btn {
+				width: 50px;
+				height: 50px;
+				border-radius: 50%;
+				border: none;
+				background: var(--btn);
+				color: var(--btnText);
+				cursor: pointer;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				transition: 0.2s transform;
+			}
+			.carousel-btn:hover {
+				transform: scale(1.1);
+			}
+			.carousel-btn svg {
+				width: 20px;
+				height: 20px;
+				fill: currentColor;
+			}
+			.carousel-dots {
+				display: flex;
+				justify-content: center;
+				gap: 8px;
+				margin-top: 20px;
+			}
+			.carousel-dot {
+				width: 12px;
+				height: 12px;
+				border-radius: 50%;
+				border: none;
+				background: var(--muted);
+				cursor: pointer;
+				transition: 0.2s background;
+			}
+			.carousel-dot.active {
+				background: var(--accent);
+			}
+			.examples-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+				gap: 20px;
+				max-width: 1200px;
+				margin: 0 auto;
+			}
+			.example-card {
+				background: var(--card);
+				border-radius: 12px;
+				padding: 16px;
+				border: 1px solid var(--grid);
+			}
+			.example-video {
+				width: 100%;
+				height: 250px;
+				border-radius: 8px;
+				background: #000;
+				border: 1px solid var(--grid);
+				margin-bottom: 8px;
+			}
+			.example-time {
+				position: absolute;
+				top: 8px;
+				left: 8px;
+				background: rgba(0, 0, 0, 0.8);
+				color: white;
+				padding: 4px 8px;
+				border-radius: 4px;
+				font-size: 12px;
+				font-weight: 500;
+			}
+			@media (max-width: 900px) {
+				.hero-title {
+					font-size: 32px;
+				}
+				.hero-subtitle {
+					font-size: 22px;
+				}
+				.examples-grid {
+					grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+					gap: 16px;
+				}
+				.example-video {
+					height: 200px;
+				}
+				.carousel-content {
+					flex-direction: column;
+					gap: 20px;
+				}
+				.carousel-left {
+					padding-right: 0;
+				}
+				.carousel-video {
+					height: 250px;
+				}
+				td,
+				tbody th {
+					width: 380px; /* Changed from 280px to 380px */
+				}
+				video {
+					height: 280px; /* Changed from 180px to 280px */
+				}
+			}
+			@media (max-width: 700px) {
+				.hero-title {
+					font-size: 24px;
+				}
+				.hero-subtitle {
+					font-size: 18px;
+				}
+				.hero-description {
+					font-size: 14px;
+				}
+				.hero-buttons {
+					flex-direction: column;
+					align-items: center;
+				}
+				.examples-grid {
+					grid-template-columns: 1fr;
+				}
+				.carousel-title {
+					font-size: 24px;
+				}
+				.carousel-video {
+					height: 200px;
+				}
+				.carousel-slide {
+					padding: 0 10px;
+				}
+				td,
+				tbody th {
+					width: 320px; /* Changed from 240px to 320px */
+				}
+				video {
+					height: 220px; /* Changed from 150px to 220px */
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<!-- Section 1: KineMask Overview -->
+		<section class="hero-section">
+			<div class="wrap">
+				<h1 class="hero-title"><span class="kine">Kine</span>Mask: Learning to Generate Object&nbsp;Interactions</span><br>with Physics-Guided Video Diffusion</h1>
+				<p class="hero-authors">
+					<span style="color: var(--accent);">David Romero<sup>1</sup></span>, 
+					<span style="color: var(--accent);">Ariana Bermudez<sup>1</sup></span>, 
+					<span style="color: var(--accent);">Hao Li<sup>1,2</sup></span>, 
+					<span style="color: var(--accent);">Fabio Pizzati<sup>1</sup></span>, 
+					<span style="color: var(--accent);">Ivan Laptev<sup>1</sup></span>
+				</p>
+				<p class="hero-status">
+					<sup>1</sup>MBZUAI, <sup>2</sup>Pinscreen
+				</p>
+		
+				
+				<div class="hero-buttons">
+					<a href="#" class="hero-btn">
+						<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+						Paper
+					</a>
+					<a href="#" class="hero-btn">
+						<svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+						Code
+					</a>
+					<a href="#" class="hero-btn">
+						<svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+						Data
+					</a>
+					<a href="#" class="hero-btn">
+						<svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+						Video
+					</a>
+				</div>
+				
+				
+
+		<!-- Section 2: Input Image and Motion Carousel -->
+		<section class="carousel-section">
+			<div class="wrap">
+				<div style="max-width: 900px; margin: 0 auto 40px auto; text-align: center;">
+					<p style="font-size: 18px; line-height: 1.6; color: var(--text); margin: 0;">
+						KineMask generates realistic, physically-consistent object interaction videos from a single image and an initial motion cue. It encodes direction and velocity in a simple mask, combines this with high-level text guidance, and enables video diffusion models to synthesize causal, dynamic scenes with fine-grained control.
+					</p>
+				</div>
+				<div class="carousel-container">
+					<div class="carousel-wrapper" id="carouselWrapper">
+						<!-- Slide 1 -->
+						<div class="carousel-slide">
+							<div class="carousel-content">
+								<!-- <div class="carousel-left">
+									<p class="carousel-description">
+										Our method takes a single input image and a simple motion indication (red dot and arrow) to generate realistic object interactions. The motion cue guides the video diffusion model to create physically plausible dynamics.
+									</p>
+								</div> -->
+								<div class="carousel-right">
+									<video class="carousel-video" controls preload="metadata" muted autoplay loop>
+										<source src="assets/videos/carousel_office.mov" type="video/mp4">
+									</video>
+								</div>
+							</div>
+						</div>
+						
+						<!-- Slide 2 -->
+						<div class="carousel-slide">
+							<div class="carousel-content">
+								<!-- <div class="carousel-left">
+									<p class="carousel-description">
+										The KineMask approach encodes both direction and velocity information in an intuitive mask format, allowing for precise control over object motion trajectories and collision dynamics.
+									</p>
+								</div> -->
+								<div class="carousel-right">
+									<video class="carousel-video" controls preload="metadata" muted autoplay loop>
+										<source src="assets/videos/carousel_coffee.mov" type="video/mp4">
+									</video>
+								</div>
+							</div>
+						</div>
+						
+						<!-- Slide 3 -->
+						<div class="carousel-slide">
+							<div class="carousel-content">
+								<!-- <div class="carousel-left">
+									<p class="carousel-description">
+										From collision scenarios to complex multi-object interactions, our system generates temporally consistent videos with realistic physics, maintaining object permanence and natural motion.
+									</p>
+								</div> -->
+								<div class="carousel-right">
+									<video class="carousel-video" controls preload="metadata" muted autoplay loop>
+										<source src="assets/videos/carousel_jar.mov" type="video/mp4">
+									</video>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="carousel-nav">
+					<button class="carousel-btn" id="prevBtn" onclick="changeSlide(-1)">
+						<svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+					</button>
+					<button class="carousel-btn" id="nextBtn" onclick="changeSlide(1)">
+						<svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+					</button>
+				</div>
+				
+				<div class="carousel-dots">
+					<button class="carousel-dot active" onclick="currentSlide(1)"></button>
+					<button class="carousel-dot" onclick="currentSlide(2)"></button>
+					<button class="carousel-dot" onclick="currentSlide(3)"></button>
+				</div>
+			</div>
+		</section>
+
+		<!-- Paper Abstract -->
+		<section class="hero-section">
+			<div class="wrap">
+				<h2 class="carousel-title">Abstract</h2>
+				<div style="max-width: 900px; margin: 0 auto; text-align: left;">
+					<p style="font-size: 16px; line-height: 1.7; color: var(--text); margin-bottom: 20px;">
+						Recent models for video generation have achieved remarkable progress and are now deployed in film, social media production, and advertising. Beyond their creative potential, such models also hold promise as world simulators for robotics and embodied decision making. Despite strong advances, however, current approaches still struggle to generate physically plausible object interactions and lack physics-grounded control mechanisms. To address this limitation, we introduce <strong>KineMask</strong>, an approach for physics-guided video generation that enables realistic rigid body control, interactions, and effects. Given a single image and a specified object velocity, our method generates videos with inferred motions and future object interactions. We propose a two-stage training strategy that gradually removes future motion supervision via object masks. Using this strategy we train video diffusion models (VDMs) on synthetic scenes of simple interactions and demonstrate significant improvements of object interactions in real scenes. Furthermore, KineMask integrates low-level motion control with high-level textual conditioning via predictive scene descriptions, leading to effective support for synthesis of complex dynamical phenomena. Extensive experiments show that KineMask achieves strong improvements over recent models of comparable size. Ablation studies further highlight the complementary roles of low- and high-level conditioning in VDMs. Our code, model, and data will be made publicly available.
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Research Overview -->
+		<section class="carousel-section">
+			<div class="wrap">
+				<h2 class="carousel-title">Pipeline</h2>
+				<div style="max-width: 1000px; margin: 0 auto; text-align: center;">
+					<div style="margin-bottom: 30px;">
+						<img src="assets/images/Architecture.png" alt="Research overview visualization" style="width: 100%; height: auto; max-height: 500px; object-fit: contain; border-radius: 12px; border: 1px solid var(--grid);" />
+					</div>
+					<div style="max-width: 800px; margin: 0 auto; text-align: left;">
+						<p style="font-size: 16px; line-height: 1.7; color: var(--text);">
+							We encode our <em>low-level</em> control signal as a mask encoding the instantaneous velocity of the moving objects for each frame, to train a ControlNet (left) in two stages using Blender-generated videos of objects in motion. In the first one, we train with all frames, whereas in the second one, we randomly drop part of the final frames. We also provide a <em>high-level</em> textual control extracted by a VLM. At inference (right), we construct the low-level conditioning with SAM and use GPT to infer high-level outcomes of object motion from a single frame.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Teaser Video -->
+		<section class="hero-section">
+			<div class="wrap">
+				<div style="max-width: 1000px; margin: 0 auto; text-align: center;">
+					<video style="width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--grid); background: #ffffff;" controls muted loop preload="metadata">
+						<source src="static/videos/banner_video.mp4" type="video/mp4">
+					</video>
+					<h2 style="font-size: 18px; color: var(--muted); margin-top: 20px; line-height: 1.6;">
+						KineMask generates realistic object interactions from a single image and motion cue, enabling physics-guided video synthesis with precise control over object dynamics and collisions.
+					</h2>
+				</div>
+			</div>
+		</section>
+
+		<!-- Examples Grid -->
+		<section class="hero-section">
+			<div class="wrap">
+				<div class="examples-grid">
+					<div class="example-card">
+						<div style="position: relative;">
+							<video class="example-video" controls preload="metadata" muted>
+								<source src="assets/ours/coffee.mp4" type="video/mp4">
+							</video>
+							<span class="example-time">1:00</span>
+						</div>
+					</div>
+					<div class="example-card">
+						<div style="position: relative;">
+							<video class="example-video" controls preload="metadata" muted>
+								<source src="assets/ours/cajas.mp4" type="video/mp4">
+							</video>
+							<span class="example-time">1:00</span>
+						</div>
+					</div>
+					<div class="example-card">
+						<div style="position: relative;">
+							<video class="example-video" controls preload="metadata" muted>
+								<source src="assets/ours/kitchen.mp4" type="video/mp4">
+							</video>
+							<span class="example-time">1:00</span>
+						</div>
+					</div>
+					<div class="example-card">
+						<div style="position: relative;">
+							<video class="example-video" controls preload="metadata" muted>
+								<source src="assets/ours/rolls.mp4" type="video/mp4">
+							</video>
+							<span class="example-time">1:00</span>
+						</div>
+					</div>
+					<div class="example-card">
+						<div style="position: relative;">
+							<video class="example-video" controls preload="metadata" muted>
+								<source src="assets/ours/toaster.mp4" type="video/mp4">
+							</video>
+							<span class="example-time">1:00</span>
+						</div>
+					</div>
+					<div class="example-card">
+						<div style="position: relative;">
+							<video class="example-video" controls preload="metadata" muted>
+								<source src="assets/ours/toys.mp4" type="video/mp4">
+							</video>
+							<span class="example-time">1:00</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- BibTeX Citation -->
+		<section class="carousel-section">
+			<div class="wrap">
+				<div style="display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 30px;">
+					<h2 class="carousel-title" style="margin: 0;">BibTeX</h2>
+					<button onclick="copyBibTeX()" class="hero-btn" title="Copy BibTeX to clipboard">
+						📋Copy
+					</button>
+				</div>
+				<div style="max-width: 800px; margin: 0 auto;">
+					<pre id="bibtex-code" style="background: var(--bg); border: 1px solid var(--grid); border-radius: 8px; padding: 20px; font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.4; color: var(--text); overflow-x: auto;"><code>@article{KineMask2024,
+  title={KineMask: Learning to Generate Object Interactions with Physics-Guided Video Diffusion},
+  author={David Romero and Ariana Bermudez and Hao Li and Fabio Pizzati and Ivan Laptev},
+  journal={Conference/Journal Name},
+  year={2024},
+  url={https://your-domain.com/kinemask}
+}</code></pre>
+				</div>
+			</div>
+		</section>
+
+		<!-- Section 3: Comparison Matrix -->
+		<header>
+			<div class="wrap">
+				<h1>Supplementary Material: Comparison of our method vs other baselines</h1>
+		
+				<div class="button-descriptions" style="margin-top: 12px; color: var(--muted); font-size: 13px; line-height: 1.4;">
+					<strong>Controls:</strong>
+					<span style="margin-left: 12px;">▶️ Play all videos</span>
+					<span style="margin-left: 12px;">⏸️ Pause all videos</span>
+					<span style="margin-left: 12px;">🔄 Reset all videos to start</span>
+					<span style="margin-left: 12px;">Each row has individual play/pause/reset buttons</span>
+				</div>
+				<div class="control-bar">
+					<button id="playAll" title="Play all" aria-label="Play all">
+						<svg
+							viewBox="0 0 24 24"
+							fill="currentColor"
+							aria-hidden="true"
+						>
+							<path d="M8 5v14l11-7z"/>
+						</svg>
+					</button>
+
+					<button
+						id="pauseAll"
+						title="Pause all"
+						aria-label="Pause all"
+					>
+						<svg
+							viewBox="0 0 24 24"
+							fill="currentColor"
+							aria-hidden="true"
+						>
+							<path d="M6 4h4v16H6zM14 4h4v16h-4z" />
+						</svg>
+					</button>
+
+					<button
+						id="resetAll"
+						title="Reset all"
+						aria-label="Reset all"
+					>
+						<svg
+							viewBox="0 0 24 24"
+							fill="currentColor"
+							aria-hidden="true"
+						>
+							<path
+								d="M17.65 6.35A7.95 7.95 0 0012 4a8 8 0 100 16 8 8 0 007.75-6h-2.1a6 6 0 11-1.3-6.65l-2.9 2.9H22V2l-4.35 4.35z"
+							/>
+						</svg>
+					</button>
+					<span class="chip"
+						>Theme:
+						<button
+							id="toggleTheme"
+							class="chip"
+							style="margin-left: 6px"
+						>
+							Toggle
+						</button></span
+					>
+				</div>
+			</div>
+		</header>
+
+		<main class="wrap grid">
+			<table id="matrix">
+				<thead>
+					<tr id="headRow"></tr>
+				</thead>
+				<tbody id="body"></tbody>
+			</table>
+			<p class="note">
+				The site automatically scans the <code>assets/</code> folder and
+				treats every subfolder as a prompt. Each folder should have
+				<code>prompt.txt</code> with text to show in the first column,
+				plus the five videos with fixed names.
+			</p>
+		</main>
+
+		<div class="footer">
+			Built for GitHub Pages. No manifest.json needed — just folders in
+			<code>assets/</code>.
+		</div>
+
+		<script src="assets/prompts.js"></script>
+		<script>
+			const COLUMNS = [
+				{ key: "ours", label: "KineMask (Ours)" },
+				{ key: "wan", label: "WAN2.2 5B" },
+				{ key: "force", label: "Force-Prompting" },
+				{ key: "cogvideox", label: "CogVideoX" },
+			];
+
+			const DESCRIPTIONS = {
+				ajedrez: "On a chess table the second pawn from the right begins to move to the right. It collides lightly with the pawn on the far right, causing that pawn to move slightly. After the collision, both pawns remain upright next to each other, while the other chess pieces stay in their original positions",
+				balls: "On a tennis court, two yellow tennis balls rest side by side near a white line. The ball on the left begins rolling to the right toward the other ball. It makes a gentle contact, nudging the right ball a short distance to the right while the left ball slows and comes to rest next to it. After the brief contact, both balls settle close to one another, and no further motion occurs.",
+				batidora: "In a restaurant counter scene, there are three items: a green stand mixer with a metal bowl on the left, a green bottle in the middle, and a paper towel roll on a wooden holder on the right. The paper towel roll moves to the left towards the bottle and collides slightly with it. The roll then stops next to the bottle. The bottle is pushed to the left, moves toward the mixer, and makes a light contact with the mixer’s bowl. After the collisions all objects remain stationary.",
+				beer: "The scene shows a wooden table with two objects: a green beer bottle and a glass of beer. The glass of beer starts on the right side of the table and moves slightly to the left. As it moves, it collides gently with the beer bottle placed nearby. The glass of beer stops next to the bottle after the collision. Both the glass and the bottle remain stationary for the rest of the sequence.",
+				billard: "On a red billiard table, several balls are visible. At the center of the frame, a striped red-and-white ball numbered 12 and a solid red ball numbered 4 are positioned next to each other. The striped ball begins to move to the right, rolling smoothly across the felt surface while its glossy finish reflects light. As it moves, the ball approaches the solid red ball and collides slightly with it. The impact causes the striped ball to change its direction slightly and slow down, while the solid red ball rolls a short distance to the right before coming to a stop. The other balls in the background remain stationary throughout the sequence.",
+				cafe: "On a wooden table, there is a white cup filled with coffee on the left and a stack of two books on the right. The cup begins to move to the right and collides with the stack of books. The impact causes the books to shift slightly in place, while the coffee inside the cup ripples gently. After the collision, both the cup and the books remain on the table.",
+				cajas: "On a wooden floor of a living room, there are two cardboard boxes of different sizes. The larger box on the right begins to move slowly toward the smaller box on the left. It collides with the smaller box, causing the smaller box to move slightly. After the collision, both boxes remain on the floor next to each other.",
+				calabaza: "In a dimly lit scene, several plastic pumpkins with carved faces are placed on shelves. The plastic pumpkin positioned at the lower left begins to move steadily to the right. It travels across the bottom shelf and eventually reaches the plastic pumpkin on the lower right. The two plastic pumpkins make contact, producing a gentle collision that pushes the right plastic pumpkin slightly further toward the edge. Both plastic pumpkins remain next to each other after the contact, while the plastic pumpkins on the upper shelf remain stationary throughout the sequence.",
+				camera: "On a wooden surface, there is a black camera, a roll of film, and a small white packet placed next to each other. The camera begins to move slightly to the left. As it shifts, it brushes against the roll of film, causing the roll to tilt and fall onto its side. The small white packet remains stationary throughout the sequence. After the motion, the camera stops at the left side of the frame, the roll of film lies on its side next to it, and the white packet stays in its original position.",
+				candles: "The scene shows a table with two brown candles, a green bottle, and two stacked books. The candle in the front begins to move slowly towards the top right, approaching the other candle. It continues its motion and eventually collides slightly with the second candle, shifting it a little to the right. The flames on both candles flicker and bend slightly from the motion and the contact, before returning to a steady state. After the collision, both candles remain stationary next to each other, while the green bottle and the books in the background stay in their original positions.",
+				candles_dark: "Three lit candles are arranged with a tall candle on the left, a medium candle on the right, and a smaller candle in the foreground. The medium candle moves diagonally toward the bottom left, closing the distance to the small candle. It makes a gentle contact, lightly pressing soft wax at the point of touch and nudging the small candle a short distance farther left. Both flames flicker briefly at impact. The medium candle slows and comes to rest next to the small one, while the tall candle on the left remains where it is. The scene ends with the small and medium candles close together near the lower left and the tall candle separate on the left.",
+				cars: "There are two identical yellow cars, one on the left and one on the right. The left car begins moving to the right toward the other car, closing the small gap between them. It makes a light contact with the right car, nudging it a short distance to the right. After the brief bump, the left car slows and stops next to the right car, and both remain stationary at the end with the right car slightly ahead of where it started.",
+				cars2: "In this scene, there are two toy cars, one blue and yellow on the left and one red and yellow on the right. The red and yellow car starts moving to the left towards the blue and yellow car. The red and yellow car collides gently with the blue and yellow car, causing both cars to touch side by side. After the collision, both cars remain stationary next to each other.",
+				coffee: "On a wooden counter there are two cups of coffee. The cup on the left begins to move toward the cup on the right. It collides with the cup on the right, pushing it a short distance across the counter before both cups come to rest. The impact causes the coffee inside both cups to ripple, with a small amount spilling over the edges onto the counter. After the collision, the coffee in both cups continues to move gently for a short time before settling.",
+				cola: "On a wooden table there is a glass bottle of soda and a jar filled with a red drink. The jar begins to slide to the left and collides with the soda bottle. The impact pushes the bottle slightly aside and causes the liquids in both containers to move vigorously, with visible ripples and small amounts sloshing near the edges. After the collision, both come to a stop",
+				cup: "A green ball on a wooden table. The ball moves to the right, falls from the table and rolls on the floor. After rolling the ball comes to a stop, no new objects appear and the ball does not return to the table.",
+				cupsteam: "In a cozy café setting, there are two coffee cups placed on a round wooden table with light steam rising. The cup on the left begins moving to the right. The cup continues in this direction and eventually collides slightly with the cup on the right. The impact causes the right cup to shift a little to the side, while both cups remain next to each other on the table after the collision. The movement makes the coffee inside both cups ripple gently, creating small waves on the surface that settle shortly after. Faint steam continues rising from both cups throughout the sequence.",
+				dados: "Two white dice are positioned next to each other near the center of the frame. The die on the left begins to move to the right. It collides with the die on the right with a moderate impact, and the two dice separate. The die on the right is pushed to the right and slides a noticeable distance, coming to rest near the right side of the frame. The die on the left slows and shifts slightly, stopping near the middle. After the collision, both dice remain stationary.",
+				drinks: "On a wooden tray, there are several objects: a glass cup filled with liquid, a bottle, and two small bowls of nuts. The glass cup starts moving to the right. As it moves, it approaches the bowl of nuts in front of it and collides slightly with it. The bowl is nudged gently to the side but remains on the tray. After the collision, the glass cup and the bowl both remain stationary, while the bottle and the other bowl stay in their original positions throughout the sequence.",
+				ducks: "Two yellow rubber ducks are floating on a wet surface with shallow water. The duck on the left begins moving to the right, heading towards the duck on the right. As the duck on the left advances, small ripples spread outward from its base, disturbing the water. The duck on the left continues its motion and collides firmly with the duck on the right. The impact creates overlapping ripples and small splashes around both ducks. The duck on the right shifts to the side, while the duck on the left comes to a stop next to it. After the collision, the water ripples gradually spread and fade, and both ducks remain stationary.",
+				eggs: "On a light blue background, there are three egg cups arranged in a row: an unpeeled egg on the left, a partly peeled egg in the center, and a mostly peeled egg on the right. The right egg and its cup move to the left toward the center cup and make a gentle contact, pushing the center cup a short distance left. The center cup then touches the left cup lightly, and both shift a little. A few loose bits of shell flake off from the partly peeled egg during the contacts. The right cup settles next to the center cup, and all three cups remain close together at the end.",
+				fruta: "On a wooden table, there is a round fruit on the left and a beige container on the right. The fruit begins to move to the right across the table. It collides with the container, causing the container to move briefly before settling back into position. Both the fruit and the container remain on the table, while the two chairs stay in their original positions.",
+				gasoline: "In a garage, there are four containers lined up against a wall: three red gasoline containers and one blue water container. The red container to the right of the blue one begins to move to the left. It collides with the blue container and the red container on the left of it, pushing them to the left. The moving red container comes to a stop next to the others, while all containers remain on the ground.",
+				gels: "On a white table, there is a potted plant and three bottles arranged in a row. The bottle on the right begins to move to the left. As it shifts, it collides slightly with the bottle next to it, pushing it gently towards the left as well. Both bottles come to a stop next to the third bottle, remaining aligned together. The potted plant on the left side of the frame stays stationary throughout the sequence.",
+				hielo: "The scene shows three curling stones on an icy surface next to a broom. A red curling stone positioned in the middle begins to move to the left. It slides across the ice and collides with the other red curling stone on the left. The collision is moderate, causing the left red stone to shift slightly from its position while the moving stone comes to a stop next to it. The blue curling stone and the broom remain stationary throughout the sequence.",
+				iphone: "On a white surface, there is a small plant, a charging cable, a white adapter, a purple cellphone, and a white box. The cellphone begins to move towards the top right of the frame. As it shifts, it collides with the edge of the white box, pushing the box a further to the right. After the motion, the cellphone stops next to the box, while the plant, the adapter, and the cable remain stationary throughout the sequence.",
+				ipod: "On a gray surface, there are two iPod boxes placed next to each other, along with a white case and a keyboard in the background. The iPod box begins to move to the left. As it shifts, it collides with the other iPod box, causing the box to slide a to the left side. After the collision, both iPod boxes remain next to each other in their new positions, while the white case and the keyboard remain stationary throughout the sequence.",
+				jabon: "On a wooden bath tray placed across a bathtub, there is a bath sponge, a white bar of soap, and a green candle in a glass. The bar of soap begins to move toward the candle. It collides with the candle, making the candle move. The soap comes to rest against the candle, while the sponge remains in its original position",
+				jar_chair: "A ceramic pot moves left, falls from the chair to the floor, and completely shatters into many small pieces. After breaking, the pot disappears and only broken ceramic fragments remain scattered on the floor.",
+				jugo: "A glass of juice moves right and falls from the chair to the floor, and shatters into many small pieces. The glass disappears, leaving only broken glass fragments scattered on the floor, with orange juice spilling and spreading widely.",
+				juice: "A glass cup moves to the left, falls from the chair to the floor, it reaches the floor and the glass cup completely shatters into many small glass pieces. After breaking, the glass cup disappears, leaving only broken glass fragments scattered on the floor, with orange juice spilling and spreading widely.",
+				juices: "On a wooden surface, there are four glasses with different drinks: a green juice, an orange juice, a yellow juice, and a white drink with foam. The orange juice, positioned towards the back, starts moving to the right. It continues its motion and collides slightly with the white drink next to it, causing a small splash at the top of both glasses. After the collision, the orange juice stops next to the white drink, and both remain stationary. The green and yellow juices in the foreground do not move throughout the sequence.",
+				kitchen: "On a wooden kitchen counter, there are five objects: a glass of orange juice, a pepper grinder, a cup of coffee, a glass of pink milkshake, and a metal measuring cup with powder. The glass of pink milkshake, positioned on the right side of the scene, starts moving slightly downwards to the left. As it continues in this direction, it collides gently with the cup of coffee next to it. The impact causes the milkshake inside the glass to sway and ripple near the rim, while the surface of the coffee ripples slightly from the contact. After the collision, both glasses remain stable on the counter. The glass of orange juice, the pepper grinder, and the measuring cup of powder remain stationary throughout the sequence.",
+				llantas: "On a concrete surface, there are four tires arranged in a row: a pink tire on the left, followed by a blue tire, an orange tire, and a yellow tire. The blue tire begins to move to the left. As it shifts, it collides with the pink tire, causing a noticeable push that moves the pink tire further to the side. After the collision, the blue tire and the pink tire remain close but in new positions, while the orange tire and the yellow tire remain stationary throughout the sequence.",
+				milk: "Inside a refrigerator, there are two glass bottles filled with milk placed side by side. The bottle on the left begins to move to the right, heading directly toward the bottle on the right. The two bottles collide, causing them to shake slightly and creating small ripples on the milk inside each bottle. After the collision, both bottles remain in place without tipping over or breaking.",
+				nintendo: "On a wooden surface, there is a Nintendo Game Boy surrounded by four game cartridges. The Game Boy begins to move toward the lower right side of the image. It collides with the game cartridge in that position, pushing the cartridge further across the surface. After the collision, the Game Boy comes to rest next to the cartridge, while the other cartridges remain where they are.",
+				office: "In an office corner by a window, there are three objects: a potted plant in a white pot, a black mesh trash bin to its right, and a wooden desk further right. The plant moves to the right towards the trash bin and collides slightly with it, nudging the bin a little toward the desk. The trash bin stops near the desk, and the plant remains next to the bin. After the collision all objects remain stationary.",
+				ollas: "In a kitchen setting, there are two pink pots placed on a stove. The pot on the left begins to move to the right towards the pot on the right. As it continues in this direction, the left pot eventually collides slightly with the right pot. The impact causes the right pot to shift a little on the stove, while both pots remain next to each other after the collision. Throughout the sequence, faint steam continues to rise steadily from the pot on the right.",
+				pan: "On a table, three pieces of cookware are arranged in a row: a shallow frying pan on the left, a large copper pot in the center, and a small lidded saucepan on the right. The frying pan on the left begins to move to the right. It slides forward and collides slightly with the side of the copper pot. The impact makes the pot move slightly to the right, while the frying pan's body rotates slightly from the glancing contact. After the collision, the frying pan comes to rest next to the copper pot. The pot remains upright and the saucepan on the right stays stationary throughout the sequence.",
+				pinturas: "On a wooden table, there are several paint jars of different colors. The purple paint jar at the bottom left starts to move to the right. It continues to slide across the table, passing below the brown paint jar in the center without making contact. The purple jar eventually comes to a stop on the right side of the table. The other jars and lids remain in their original positions throughout the sequence.",
+				planta: "In a bedroom setting, a wooden table is placed beside a bed. On top of the table, there is a tall white vase filled with flowers and a closed white book resting next to it. The book begins to slide to the left and collides slightly with the vase. The vase wobbles gently from the contact, and the flowers sway lightly. After the collision, the book comes to rest next to the vase, while the vase remains upright and stationary.",
+				planta5: "Two identical potted plants are placed side by side on a wooden table against a tiled wall. The plant on the left begins moving to the right, heading directly toward the plant on the right. As the left pot moves quickly, the leaves of the plant sway noticeably from the motion. The left plant continues its movement until it collides firmly with the right plant. At the moment of collision, the pots bump together, and the leaves of both plants shake vigorously, with some leaves swaying for a few moments after the impact. The right plant shifts to the side while staying upright. After the collision, both plants remain next to each other on the table, and the leaves gradually settle back to stillness.",
+				plantas: "On a light-colored surface, there are three small potted plants. The plant in the lower part of the image begins to move toward the plant in the top right. It collides with the plant in the top right, causing that plant to move upwards. After the collision, both plants comes to a stop next, while the plant in the top left stays in its original position.",
+				rolls: "On a wooden ledge, five film rolls of different brands and colors are lined up in a row. From left to right, the rolls are red, black, yellow, green-and-white, and light green. The green-and-white roll, positioned second from the right, begins to slide quickly to the right. The roll collides directly with the light green roll on the far right, producing a strong impact that causes the light green roll to tip and fall off the edge of the surface. After the collision, the green-and-white roll continues sliding and exits the frame on the right side. The other three rolls on the left remain stationary throughout the sequence.",
+				salt: "On a wooden table, there are two containers: a large glass jar filled with salt and a smaller glass shaker placed beside it. The large jar, positioned on the right, starts to move to the left. It approaches the smaller shaker and collides with it, causing the shaker to slide to the left. After the impact, the large jar comes to a stop next to the shaker, and both containers remain stationary for the rest of the sequence.",
+				sk8: "On a concrete surface, there are four colorful skate wheels and a purple skate tool. The red wheel in the middle begins to slide downward toward the green wheel. The red wheel collides forcefully with the green wheel, pushing it further away from its original position. The impact causes both wheels to slide a short distance before coming to rest, while the other wheels remain stationary.",
+				skateboard: "The scene is set outdoors on a concrete ground where several skateboard wheels are scattered. The skateboard wheel on the right side begins moving leftward toward the single wheel positioned on the far left. As it rolls across the ground, the moving wheel eventually collides with the stationary wheel. The collision is direct but not very strong, causing the left wheel to shift slightly from its position while the moving wheel comes to rest close by. The other three wheels in the background remain unaffected and stationary throughout the sequence.",
+				starbucks: "On a café counter, there are two lidded plastic cups of iced coffee placed near each other. The cup on the left starts moving to the right toward the other cup. It continues moving and collides slightly with the cup on the right, nudging it a short distance to the right. The coffee inside both cups swirls briefly and the ice shifts, but nothing spills. The left cup stops next to the right cup, and after the collision both cups remain stationary.",
+				tequila: "On a wooden table, there are two glasses and a larger container filled with a golden liquid. The glass positioned at the bottom of the frame begins to move diagonally toward the top right. It approaches the nearby glass and makes a gentle contact, nudging it slightly backward. The impact causes small ripples in both glasses as the liquid shifts inside. After the short movement, the two glasses settle close together, while the larger container in the background remains stationary throughout the sequence.",
+				toaster: "The scene is set on a kitchen counter with open shelves. On the counter there are a microwave, wooden cutting boards with a white mug, a white toaster, and a metal electric kettle. The white toaster starts near the center-right and moves to the right toward the kettle. The toaster continues to move and collides slightly with the kettle, nudging it a little to the right before both come to a stop side by side. The microwave, the cutting boards, the mug, and the items on the shelves remain stationary throughout the sequence.", 
+				toys: "On a wooden table, there are several toys: a wooden car on the right, a mallet with a small wooden ball nearby, and five colorful rings (green, yellow, white, pink, and light blue). The pink ring on the right begins moving downwards toward the light blue ring at the bottom. The pink ring continues moving downwards and collides with the light blue ring, pushing it downwards while the pink ring comes to a stop. The other rings, the mallet, the wooden ball, and the wooden car remain stationary throughout the sequence.",
+				trash: "In front of a metal fence, two green trash cans are positioned side by side on a paved surface. The trash can on the right begins to move to the left. As it slides across the ground, it approaches the trash can on the left and collides with it. The impact is moderate, causing both lids to shake visibly and the trash can on the left to shift slightly from its original position. The moving trash can bounces slightly backward after the collision and comes to rest close to the other. After the collision, both trash cans remain upright and stationary. The background remains unchanged throughout the sequence.",
+				tv: "In a dimly lit room, there are two televisions placed side by side in front of a couch. The television on the left begins to move to the right. It approaches the television on the right and eventually collides slightly with it. The contact causes the television on the right to shift a little from its original position. After the collision, both televisions remain next to each other in their new spots, while the couch in the background stays unchanged throughout the sequence.",
+				vela: "On a wooden surface, there are three lit candles arranged in a row. The candle on the left begins to move slowly toward the candle in the middle. It collides lightly with the middle candle, causing the middle candle to shift slightly in place. The impact disturbs the flames, making them flicker. After the collision, both candles remain upright next to each other, while the third candle on the right stays in its original position."
+			};
+
+			const headRow = document.getElementById("headRow");
+			const body = document.getElementById("body");
+
+			// Remove header row since we have labels above each video
+			// headRow.appendChild(document.createElement("th")).textContent = "Prompt";
+			// for (const col of COLUMNS) {
+			// 	const th = document.createElement("th");
+			// 	th.textContent = col.label;
+			// 	headRow.appendChild(th);
+			// }
+
+			function makeVideo(src, id) {
+				const v = document.createElement("video");
+				v.controls = true;
+				v.preload = "metadata";
+				v.playsInline = true;
+				v.muted = true;
+				v.src = src;
+				v.dataset.vid = id;
+				return v;
+			}
+
+			function queryRowVideos(rowId) {
+				return Array.from(
+					document.querySelectorAll(`video[data-vid^="${rowId}-"]`)
+				);
+			}
+
+			async function playAll(videos) {
+				for (const v of videos) {
+					try {
+						v.currentTime = 0;
+						await v.play();
+					} catch (e) {}
+				}
+			}
+			function pauseAll(videos) {
+				videos.forEach((v) => v.pause());
+			}
+			function resetAllVideos(videos) {
+				videos.forEach((v) => {
+					v.pause();
+					v.currentTime = 0;
+				});
+			}
+
+			// Get all video names from the first column folder
+			async function getVideoNames() {
+				// Complete list of video names (without .mp4 extension)
+				return [
+					"balls", "batidora", "beer", "billard",  "cajas", 
+					 "camera", "candles", "candles_dark", "cars", 
+					"cars2", "coffee", "cola",  "cupsteam", "dados",
+					"drinks", "ducks", "eggs", "fruta", "gasoline", "gels",
+					"hielo", "iphone", "ipod", "jabon", "jar_chair", "jugo",
+					"juice", "juices", "kitchen", "llantas", "milk", "nintendo",
+					"office", "ollas", "pan", "pinturas", "planta", "planta5", "plantas",
+					"rolls", "salt", "sk8", "skateboard", "starbucks", "tequila", "toaster", 
+					"toys", "trash", "tv", "vela"
+				];
+				//"ajedrez", "cafe","calabaza","cup",
+			}
+
+			async function buildFromAssets() {
+				// Get list of video names (prompt scenarios)
+				const videoNames = await getVideoNames();
+				
+				for (let i = 0; i < videoNames.length; i++) {
+					const videoName = videoNames[i];
+					const title = videoName.charAt(0).toUpperCase() + videoName.slice(1);
+
+					const tr = document.createElement("tr");
+
+					const th = document.createElement("th");
+					th.innerHTML = `<div>
+						
+						<div class="row-controls">
+							<button class="playRow" data-row="${videoName}" title="Play row (sync)" aria-label="Play row (sync)">
+								<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="20" height="20">
+								<path d="M8 5v14l11-7z"/>
+								</svg>
+							</button>
+							<button class="pauseRow" data-row="${videoName}" title="Pause row" aria-label="Pause row">
+								<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="20" height="20">
+								<path d="M6 4h4v16H6zM14 4h4v16h-4z"/>
+								</svg>
+							</button>
+							<button class="resetRow" data-row="${videoName}" title="Reset row" aria-label="Reset row">
+								<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="20" height="20">
+								<path d="M17.65 6.35A7.95 7.95 0 0012 4a8 8 0 100 16 8 8 0 007.75-6h-2.1a6 6 0 11-1.3-6.65l-2.9 2.9H22V2l-4.35 4.35z"/>
+								</svg>
+							</button>
+						</div>
+						<div class="reference-image">
+							<div class="method-label">Instruction</div>
+							<img src="assets/images_arrows/${videoName}.png" alt="${title} reference" class="reference-img" onerror="this.style.display='none'" />
+							<div class="prompt-text" id="${videoName}-promptText"></div>
+						</div>
+					</div>`;
+					tr.appendChild(th);
+
+					for (const col of COLUMNS) {
+						const td = document.createElement("td");
+						const container = document.createElement("div");
+						container.className = "cell";
+
+						// Add method label above each video
+						const methodLabel = document.createElement("div");
+						methodLabel.className = "method-label";
+						if (col.label.includes("Ours")) {
+							methodLabel.innerHTML = "<strong>" + col.label + "</strong>";
+						} else {
+							methodLabel.textContent = col.label;
+						}
+						container.appendChild(methodLabel);
+
+						const src = `assets/${col.key}/${videoName}.mp4`;
+						const v = makeVideo(src, `${videoName}-${col.key}`);
+						container.appendChild(v);
+						td.appendChild(container);
+						tr.appendChild(td);
+					}
+					body.appendChild(tr);
+
+					// Load prompt text from embedded descriptions
+					const el = document.getElementById(`${videoName}-promptText`);
+					if (el) {
+						const description = DESCRIPTIONS[videoName];
+						if (description) {
+							el.textContent = description.trim();
+						} else {
+							el.textContent = "(no description available)";
+						}
+					}
+				}
+
+				document.querySelectorAll(".playRow").forEach((btn) =>
+					btn.addEventListener("click", async (e) => {
+						await playAll(
+							queryRowVideos(e.currentTarget.dataset.row)
+						);
+					})
+				);
+				document.querySelectorAll(".pauseRow").forEach((btn) =>
+					btn.addEventListener("click", (e) => {
+						pauseAll(queryRowVideos(e.currentTarget.dataset.row));
+					})
+				);
+				document.querySelectorAll(".resetRow").forEach((btn) =>
+					btn.addEventListener("click", (e) => {
+						resetAllVideos(
+							queryRowVideos(e.currentTarget.dataset.row)
+						);
+					})
+				);
+
+				document.querySelectorAll("video").forEach((v) => {
+					v.addEventListener("ended", () => {
+						const [rowId] = v.dataset.vid.split("-");
+						pauseAll(queryRowVideos(rowId));
+					});
+				});
+			}
+
+			document
+				.getElementById("playAll")
+				.addEventListener("click", async () =>
+					await playAll(Array.from(document.querySelectorAll("video")))
+				);
+			document
+				.getElementById("pauseAll")
+				.addEventListener("click", () =>
+					pauseAll(Array.from(document.querySelectorAll("video")))
+				);
+			document
+				.getElementById("resetAll")
+				.addEventListener("click", () =>
+					resetAllVideos(
+						Array.from(document.querySelectorAll("video"))
+					)
+				);
+
+			const root = document.documentElement;
+			const saved = localStorage.getItem("pv-theme");
+			if (saved) {
+				root.setAttribute("data-theme", saved);
+			}
+			document
+				.getElementById("toggleTheme")
+				.addEventListener("click", () => {
+					const cur = root.getAttribute("data-theme");
+					const next = cur === "light" ? "dark" : "light";
+					root.setAttribute("data-theme", next);
+					localStorage.setItem("pv-theme", next);
+				});
+
+			// Carousel functionality
+			let slideIndex = 0;
+			const slides = document.querySelectorAll('.carousel-slide');
+			const dots = document.querySelectorAll('.carousel-dot');
+			const wrapper = document.getElementById('carouselWrapper');
+
+			function showSlide(index) {
+				if (index >= slides.length) slideIndex = 0;
+				if (index < 0) slideIndex = slides.length - 1;
+				
+				wrapper.style.transform = `translateX(-${slideIndex * 100}%)`;
+				
+				// Update dots
+				dots.forEach((dot, i) => {
+					dot.classList.toggle('active', i === slideIndex);
+				});
+			}
+
+			function changeSlide(direction) {
+				slideIndex += direction;
+				showSlide(slideIndex);
+			}
+
+			function currentSlide(index) {
+				slideIndex = index - 1;
+				showSlide(slideIndex);
+			}
+
+			// Auto-advance carousel every 8 seconds
+			setInterval(() => {
+				slideIndex++;
+				showSlide(slideIndex);
+			}, 8000);
+
+			// Make functions global for onclick handlers
+			window.changeSlide = changeSlide;
+			window.currentSlide = currentSlide;
+
+			// BibTeX copy functionality
+			function copyBibTeX() {
+				const bibtexElement = document.getElementById('bibtex-code');
+				const bibtexText = bibtexElement.textContent;
+				
+				navigator.clipboard.writeText(bibtexText).then(() => {
+					// Show feedback
+					const button = event.target.closest('button');
+					const originalText = button.innerHTML;
+					button.innerHTML = '<span style="margin-right: 8px;">✅</span>Copied!';
+					setTimeout(() => {
+						button.innerHTML = originalText;
+					}, 2000);
+				}).catch(err => {
+					console.error('Failed to copy BibTeX: ', err);
+				});
+			}
+
+			// Make copyBibTeX function global
+			window.copyBibTeX = copyBibTeX;
+
+			buildFromAssets();
+		</script>
+	</body>
+</html>
