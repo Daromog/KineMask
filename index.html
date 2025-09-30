@@ -681,6 +681,7 @@
 		<!-- Examples Grid -->
 		<section class="hero-section">
 			<div class="wrap">
+				<h2 class="carousel-title">Examples</h2>
 				<div class="examples-grid">
 					<div class="example-card">
 						<div style="position: relative;">
@@ -755,7 +756,7 @@
 			</div>
 		</section>
 
-		<!-- Section 3: Comparison Matrix -->
+		<!-- Section 5: Comparison Matrix -->
 		<header>
 			<div class="wrap">
 				<h1>Supplementary Material: Comparison of our method vs other baselines</h1>
@@ -818,17 +819,11 @@
 				</thead>
 				<tbody id="body"></tbody>
 			</table>
-			<p class="note">
-				The site automatically scans the <code>assets/</code> folder and
-				treats every subfolder as a prompt. Each folder should have
-				<code>prompt.txt</code> with text to show in the first column,
-				plus the five videos with fixed names.
-			</p>
+		
 		</main>
 
 		<div class="footer">
-			Built for GitHub Pages. No manifest.json needed — just folders in
-			<code>assets/</code>.
+			Built for GitHub Pages. 
 		</div>
 
 		<script src="assets/prompts.js"></script>
@@ -947,17 +942,16 @@
 			async function getVideoNames() {
 				// Complete list of video names (without .mp4 extension)
 				return [
-					"balls", "batidora", "beer", "billard",  "cajas", 
-					 "camera", "candles", "candles_dark", "cars", 
-					"cars2", "coffee", "cola",  "cupsteam", "dados",
-					"drinks", "ducks", "eggs", "fruta", "gasoline", "gels",
-					"hielo", "iphone", "ipod", "jabon", "jar_chair", "jugo",
-					"juice", "juices", "kitchen", "llantas", "milk", "nintendo",
-					"office", "ollas", "pan", "pinturas", "planta", "planta5", "plantas",
-					"rolls", "salt", "sk8", "skateboard", "starbucks", "tequila", "toaster", 
-					"toys", "trash", "tv", "vela"
+					"balls", "batidora", "beer", "billard",  "cajas"
 				];
-				//"ajedrez", "cafe","calabaza","cup",
+				//"ajedrez", "cafe","calabaza","cup", "camera", "candles", "candles_dark", "cars", 
+					// "cars2", "coffee", "cola",  "cupsteam", "dados",
+					// "drinks", "ducks", "eggs", "fruta", "gasoline", "gels",
+					// "hielo", "iphone", "ipod", "jabon", "jar_chair", "jugo",
+					// "juice", "juices", "kitchen", "llantas", "milk", "nintendo",
+					// "office", "ollas", "pan", "pinturas", "planta", "planta5", "plantas",
+					// "rolls", "salt", "sk8", "skateboard", "starbucks", "tequila", "toaster", 
+					// "toys", "trash", "tv", "vela"
 			}
 
 			async function buildFromAssets() {
