@@ -310,6 +310,17 @@
 			[data-theme="light"] .hero-btn:hover {
 				background: #f9fafb;
 			}
+			.hero-btn.disabled {
+				background: #f3f4f6;
+				color: #9ca3af;
+				cursor: not-allowed;
+				pointer-events: none;
+				opacity: 0.6;
+			}
+			[data-theme="light"] .hero-btn.disabled {
+				background: #f3f4f6;
+				color: #9ca3af;
+			}
 			.carousel-section {
 				padding: 60px 0;
 				background: var(--card);
@@ -542,18 +553,14 @@
 						<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
 						Paper
 					</a>
-					<a href="#" class="hero-btn">
+					<span class="hero-btn disabled">
 						<svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-						Code
-					</a>
-					<a href="#" class="hero-btn">
+						Code (Coming Soon)
+					</span>
+					<span class="hero-btn disabled">
 						<svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-						Data
-					</a>
-					<a href="#" class="hero-btn">
-						<svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-						Video
-					</a>
+						Data (Coming Soon)
+					</span>
 				</div>
 				
 				
@@ -563,7 +570,7 @@
 			<div class="wrap">
 				<div style="max-width: 900px; margin: 0 auto 40px auto; text-align: center;">
 					<p style="font-size: 18px; line-height: 1.6; color: var(--text); margin: 0;">
-						KineMask generates realistic, physically-consistent object interaction videos from a single image and an initial motion cue. It encodes direction and velocity in a simple mask, combines this with high-level text guidance, and enables video diffusion models to synthesize causal, dynamic scenes with fine-grained control.
+						KineMask generates realistic, physically-consistent object interaction videos from a single image and an initial motion cue. It encodes <strong style="color: var(--accent);">direction and velocity</strong> in a simple mask, combines this with high-level text guidance, and enables video diffusion models to synthesize causal, dynamic scenes with fine-grained control.
 					</p>
 				</div>
 				<div class="carousel-container">
@@ -638,10 +645,10 @@
 		<!-- Paper Abstract -->
 		<section class="hero-section">
 			<div class="wrap">
-				<h2 class="carousel-title">Abstract</h2>
-				<div style="max-width: 900px; margin: 0 auto; text-align: left;">
-					<p style="font-size: 16px; line-height: 1.7; color: var(--text); margin-bottom: 20px;">
-						Recent models for video generation have achieved remarkable progress and are now deployed in film, social media production, and advertising. Beyond their creative potential, such models also hold promise as world simulators for robotics and embodied decision making. Despite strong advances, however, current approaches still struggle to generate physically plausible object interactions and lack physics-grounded control mechanisms. To address this limitation, we introduce <strong>KineMask</strong>, an approach for physics-guided video generation that enables realistic rigid body control, interactions, and effects. Given a single image and a specified object velocity, our method generates videos with inferred motions and future object interactions. We propose a two-stage training strategy that gradually removes future motion supervision via object masks. Using this strategy we train video diffusion models (VDMs) on synthetic scenes of simple interactions and demonstrate significant improvements of object interactions in real scenes. Furthermore, KineMask integrates low-level motion control with high-level textual conditioning via predictive scene descriptions, leading to effective support for synthesis of complex dynamical phenomena. Extensive experiments show that KineMask achieves strong improvements over recent models of comparable size. Ablation studies further highlight the complementary roles of low- and high-level conditioning in VDMs. Our code, model, and data will be made publicly available.
+				<h2 class="carousel-title" style="font-size: 28px; font-weight: 600; margin-bottom: 40px;">Abstract</h2>
+				<div style="max-width: 800px; margin: 0 auto; text-align: justify;">
+					<p style="font-size: 18px; line-height: 1.8; color: var(--muted); margin: 0; font-weight: 400; letter-spacing: 0.3px;">
+						Recent models for video generation have achieved remarkable progress and are now deployed in film, social media production, and advertising. Beyond their creative potential, such models also hold promise as world simulators for robotics and embodied decision making. Despite strong advances, however, current approaches still struggle to generate physically plausible object interactions and lack physics-grounded control mechanisms. To address this limitation, we introduce <strong style="color: var(--accent);">KineMask</strong>, an approach for physics-guided video generation that enables realistic rigid body control, interactions, and effects. Given a single image and a specified object velocity, our method generates videos with inferred motions and future object interactions. We propose a two-stage training strategy that gradually removes future motion supervision via object masks. Using this strategy we train video diffusion models (VDMs) on synthetic scenes of simple interactions and demonstrate significant improvements of object interactions in real scenes. Furthermore, KineMask integrates low-level motion control with high-level textual conditioning via predictive scene descriptions, leading to effective support for synthesis of complex dynamical phenomena. Extensive experiments show that KineMask achieves strong improvements over recent models of comparable size. Ablation studies further highlight the complementary roles of low- and high-level conditioning in VDMs. Our code, model, and data will be made publicly available.
 					</p>
 				</div>
 			</div>
@@ -663,22 +670,7 @@
 				</div>
 			</div>
 		</section>
-
-		<!-- Teaser Video -->
-		<section class="hero-section">
-			<div class="wrap">
-				<div style="max-width: 1000px; margin: 0 auto; text-align: center;">
-					<video style="width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--grid); background: #ffffff;" controls muted loop preload="metadata">
-						<source src="static/videos/banner_video.mp4" type="video/mp4">
-					</video>
-					<h2 style="font-size: 18px; color: var(--muted); margin-top: 20px; line-height: 1.6;">
-						KineMask generates realistic object interactions from a single image and motion cue, enabling physics-guided video synthesis with precise control over object dynamics and collisions.
-					</h2>
-				</div>
-			</div>
-		</section>
-
-		<!-- Examples Grid -->
+<!-- Examples Grid -->
 		<section class="hero-section">
 			<div class="wrap">
 				<h2 class="carousel-title">Examples</h2>
@@ -734,6 +726,21 @@
 				</div>
 			</div>
 		</section>
+		<!-- Teaser Video -->
+		<section class="hero-section">
+			<div class="wrap">
+				<div style="max-width: 1000px; margin: 0 auto; text-align: center;">
+					<video style="width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--grid); background: #ffffff;" controls muted loop preload="metadata">
+						<source src="assets/videos/combined_videos_with_speed_labels.mp4" type="video/mp4">
+					</video>
+					<p style="font-size: 16px; line-height: 1.7; color: var(--text);">
+						The VDM with KineMask correctly identifies causality, with objects having different effects on the scene depending on their initial velocity. 
+					</p>
+				</div>
+			</div>
+		</section>
+
+		
 
 		<!-- BibTeX Citation -->
 		<section class="carousel-section">
@@ -759,7 +766,7 @@
 		<!-- Section 5: Comparison Matrix -->
 		<header>
 			<div class="wrap">
-				<h1>Supplementary Material: Comparison of our method vs other baselines</h1>
+				<h1>Comparison of our method vs other baselines</h1>
 		
 				<div class="button-descriptions" style="margin-top: 12px; color: var(--muted); font-size: 13px; line-height: 1.4;">
 					<strong>Controls:</strong>
