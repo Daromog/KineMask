@@ -763,24 +763,42 @@
 			<div class="wrap">
 				<h2 class="carousel-title" style="margin-bottom: 16px;">Method Overview</h2>
 				<div style="max-width: 1000px; margin: 0 auto; text-align: center;">
-					<div style="margin-bottom: 16px;">
-						<img src="assets/images/teaser_image.jpg" alt="Research overview visualization" style="width: 100%; height: auto; max-height: 500px; object-fit: contain; border-radius: 12px; border: 1px solid var(--grid);" />
-					</div>
 					<div style="max-width: 1000px; margin: 0 auto; text-align: left;">
 						<p style="font-size: 16px; font-weight:400; line-height: 1.5; color: var(--text);">
 							• We enable object-based control with a novel training strategy. Paired with synthetic data constructed for the task, <img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> enables pretrained diffusion models to synthesize realistic <span style="color: var(--accent); font-style: italic;">object interactions</span> in real-world input scenes.
 						</p>
 					</div>
+					<div style="margin-bottom: 16px;">
+						<img src="assets/images/teaser_image.jpg" alt="Research overview visualization" style="width: 100%; height: auto; max-height: 500px; object-fit: contain; border-radius: 12px; border: 1px solid var(--grid);" />
+					</div>
 				</div>
 				<h2 class="carousel-title" style="margin-bottom: 16px;">KineMask Pipeline</h2>
 				<div style="max-width: 1000px; margin: 0 auto; text-align: center;">
-					<div style="margin-bottom: 16px;">
-						<img src="assets/images/Architecture.png" alt="Research overview visualization" style="width: 100%; height: auto; max-height: 500px; object-fit: contain; border-radius: 12px; border: 1px solid var(--grid);" />
-					</div>
 					<div style="max-width: 1000px; margin: 0 auto; text-align: left;">
 						<p style="font-size: 16px; font-weight:400;line-height: 1.5; color: var(--text);">
 							• We encode our <span style="color: var(--accent); font-style: italic;">low-level</span> control signal as a <span style="color: var(--accent); font-style: italic;">mask encoding the instantaneous velocity</span> of the moving objects for each frame, to train a ControlNet (left) in two stages using <span style="color: var(--accent); font-style: italic;">Blender-generated videos</span> of objects in motion. In the first one, we train with all frames, whereas in the second one, we randomly drop part of the final frames. We also provide a <em>high-level</em> textual control extracted by a VLM. At inference (right), we construct the low-level conditioning with SAM and use GPT to infer high-level outcomes of object motion from a single frame.
 						</p>
+					</div>
+					<div style="margin-bottom: 16px;">
+						<img src="assets/images/Architecture.png" alt="Research overview visualization" style="width: 100%; height: auto; max-height: 500px; object-fit: contain; border-radius: 12px; border: 1px solid var(--grid);" />
+					</div>
+				</div>
+				<h2 class="carousel-title" style="margin-bottom: 16px;">Training Data</h2>
+				<div style="max-width: 1000px; margin: 0 auto; text-align: left;">
+					<p style="font-size: 16px; font-weight:400;line-height: 1.5; color: var(--text);">
+						• We generate a <span style="color: var(--accent); font-style: italic;">synthetic dataset</span> using Blender. We render <span style="color: var(--accent); font-style: italic;">cubes and cylinders</span> with random colors, moving on textured backgrounds interacting with each other. We show our synthetic dataset along with the <span style="color: var(--accent); font-style: italic;">velocity masks</span> for each case. Please note that the masks are extracted only for objects that move at the beginning of the video, these change their <span style="color: var(--accent); font-style: italic;">color and intensity</span> depending on <span style="color: var(--accent); font-style: italic;">motion direction</span> and <span style="color: var(--accent); font-style: italic;">velocity magnitude</span>.
+					</p>
+				</div>
+				<div style="display: flex; gap: 20px; max-width: 1100px; margin: 0 auto; justify-content: center;">
+					<div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+						<video style="width: 100%; height: 400px; border-radius: 12px; background: #ffffff; border: 0px solid var(--grid);" controls preload="metadata" muted autoplay loop>
+							<source src="assets/videos/simulations_first.mov" type="video/mp4">
+						</video>
+					</div>
+					<div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+						<video style="width: 100%; height: 400px; border-radius: 12px; background: #ffffff; border: 0px solid var(--grid);" controls preload="metadata" muted autoplay loop>
+							<source src="assets/videos/simulation_second.mov" type="video/mp4">
+						</video>
 					</div>
 				</div>
 			</div>
@@ -788,6 +806,11 @@
 		<section class="hero-section">
 			<div class="wrap">
 				<h2 class="carousel-title">Low Level Motion Control</h2>
+				<div style="max-width: 1000px; margin: 0 auto 25px auto; text-align: center;">
+					<p style="font-size: 16x; font-weight:400; line-height: 1.5; color: var(--muted); margin: 0;">
+						<img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> can perform low-level motion control, moving <span style="color: var(--accent); font-style: italic;">different objects</span> on different <span style="color: var(--accent); font-style: italic;">degrees</span> of freedom and <span style="color: var(--accent); font-style: italic;">speed</span>. Despite being trained on basic synthetic data, it generalizes motion control to real-world scenes. <strong><u>Multiple objects control examples comming soon !!!</u></strong>
+					</p>
+				</div>
 				<div style="display: flex; gap: 20px; max-width: 1300px; margin: 0 auto; justify-content: center;">
 					<div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
 						<div class="method-label" style="font-size: 14px;">Direction</div>
@@ -807,11 +830,6 @@
 							<source src="assets/videos/control_obj.mov" type="video/mp4">
 						</video>
 					</div>
-				</div>
-				<div style="max-width: 1300px; margin: 14px auto 0 auto; text-align: center;">
-					<p style="font-size: 16x; font-weight:350; line-height: 1.5; color: var(--muted); margin: 0;">
-						<img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> can perform low-level motion control, moving <span style="color: var(--accent); font-style: italic;">different objects</span> on different <span style="color: var(--accent); font-style: italic;">degrees</span> of freedom and <span style="color: var(--accent); font-style: italic;">speed</span>. Despite being trained on basic synthetic data, it generalizes motion control to real-world scenes. <strong><u>Multiple objects control examples comming soon !!!</u></strong>
-					</p>
 				</div>
 			</div>
 		</section>
@@ -834,6 +852,38 @@
 					<div class="tri-label-video" style="width: 100%; height: auto; max-height: 500px;">
 						<video style="width: 100%; height: auto; object-fit: contain; border-radius: 12px; border: 1px solid var(--grid); background: #ffffff;" controls preload="metadata" muted autoplay loop playsinline>
 							<source src="assets/videos/causality.mov" type="video/mp4">
+						</video>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="hero-section">
+			<div class="wrap">
+				<h2 class="carousel-title">Generalization of Interactions to Different Scenarios</h2>
+				<div style="max-width: 1100px; margin: 0 auto 25px auto; text-align: center;">
+					<p style="font-size: 16x; font-weight:400; line-height: 1.5; color: var(--muted); margin: 0;">
+						<img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> generates realistic <span style="color: var(--accent); font-style: italic;">interactions with other objects</span> if they are present in the path of motion of the initial moving object showing a correct <span style="color: var(--accent); font-style: italic;">understanding of rigid body dynamics</span>. We also show complex interactions that require implicit 3D understanding, making a pot or a glass of juice fall and crash as a result of motion, and multi-object motion and interactions.<strong><u>(Examples comming soon!!)</u></strong>. We preserve the input <span style="color: var(--accent); font-style: italic;">motion direction and object consistency</span> in different types of real-world scenarios, showing a strong generalization of the knowledge acquired from simulated videos.
+					</p>
+				</div>
+				<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; max-width: 1200px; margin: 0 auto; justify-items: center;">
+					<div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+						<video style="width: 100%; height: 360px; border-radius: 12px; background: #ffffff; border: 0px solid var(--grid);" controls preload="metadata" muted autoplay loop>
+							<source src="assets/videos/qualitatives_first.mov" type="video/mp4">
+						</video>
+					</div>
+					<div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+						<video style="width: 100%; height: 360px; border-radius: 12px; background: #ffffff; border: 0px solid var(--grid);" controls preload="metadata" muted autoplay loop>
+							<source src="assets/videos/qualitatives_second.mov" type="video/mp4">
+						</video>
+					</div>
+					<div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+						<video style="width: 100%; height: 360px; border-radius: 12px; background: #ffffff; border: 0px solid var(--grid);" controls preload="metadata" muted autoplay loop>
+							<source src="assets/videos/qualitatives_third.mov" type="video/mp4">
+						</video>
+					</div>
+					<div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+						<video style="width: 100%; height: 360px; border-radius: 12px; background: #ffffff; border: 0px solid var(--grid);" controls preload="metadata" muted autoplay loop>
+							<source src="assets/videos/qualitatives_fourth.mov" type="video/mp4">
 						</video>
 					</div>
 				</div>
@@ -897,7 +947,7 @@
 			</div>
 		</section>
 -->
-		<!-- Teaser Video -->
+		<!-- Teaser Video 
 		<section class="hero-section">
 			<div class="wrap">
 				<div style="max-width: 1000px; margin: 0 auto; text-align: center;">
@@ -910,7 +960,7 @@
 				</div>
 			</div>
 		</section>
-
+		-->
 		
 
 		<!-- BibTeX Citation -->
@@ -924,7 +974,7 @@
 				</div>
 				<div style="max-width: 800px; margin: 0 auto;">
 					<pre id="bibtex-code" style="background: var(--bg); border: 1px solid var(--grid); border-radius: 8px; padding: 20px; font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.4; color: var(--text); overflow-x: auto;"><code>@article{KineMask2024,
-  title={KineMask: Learning to Generate Object Interactions with Physics-Guided Video Diffusion},
+  title={Learning to Generate Object Interactions with Physics-Guided Video Diffusion},
   author={David Romero and Ariana Bermudez and Hao Li and Fabio Pizzati and Ivan Laptev},
   journal={Conference/Journal Name},
   year={2024},
@@ -937,7 +987,7 @@
 		<!-- Section 5: Comparison Matrix -->
 		<header>
 			<div class="wrap">
-				<h1>Comparison of our method vs other baselines</h1>
+				<h1 style="font-size: 36px; font-weight: 700; text-align:center;">Comparison of our Method with Other Baselines</h1>
 		
 				<div class="button-descriptions" style="margin-top: 12px; color: var(--muted); font-size: 13px; line-height: 1.4;">
 					<strong>Controls:</strong>
@@ -1120,7 +1170,7 @@
 			async function getVideoNames() {
 				// Complete list of video names (without .mp4 extension)
 				return [
-					"balls", "batidora", "beer", "billard",  "cajas"
+					"jugo", "jar_chair", "coffee", "batidora", "starbucks", "fruta",  "beer", "office", "milk", "plantas","salt", "skateboard", "toaster", "toys", "tv", "candles_dark"
 				];
 				//"ajedrez", "cafe","calabaza","cup", "camera", "candles", "candles_dark", "cars", 
 					// "cars2", "coffee", "cola",  "cupsteam", "dados",
