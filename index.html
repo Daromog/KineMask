@@ -336,6 +336,12 @@
 				padding: 60px 0;
 				background: var(--card);
 				border-bottom: 1px solid var(--grid);
+				padding-bottom: 10px;
+			}
+			.pipeline-section {
+				padding: 10px 0;
+				background: var(--card);
+				border-bottom: 1px solid var(--grid);
 				padding-bottom: 20px;
 			}
 			.inline-logo {
@@ -361,9 +367,10 @@
 			}
 			.carousel-container {
 				position: relative;
-				max-width: 1000px;
+				max-width: 1300px;
 				margin: 0 auto;
 				overflow: hidden;
+				padding: 0;
 			}
 			.carousel-wrapper {
 				display: flex;
@@ -371,15 +378,16 @@
 			}
 			.carousel-slide {
 				min-width: 100%;
-				padding: 0 20px;
+				padding: 0 20px 0 20px;
 				box-sizing: border-box;
 			}
 			.carousel-content {
 				display: flex;
 				gap: 40px;
-				align-items: center;
-				max-width: 900px;
+				align-items: flex-start;
+				max-width: 1300px;
 				margin: 0 auto;
+				padding: 0;
 			}
 			.carousel-left {
 				flex: 1;
@@ -390,7 +398,7 @@
 			}
 			.carousel-video {
 				width: 100%;
-				height: 300px;
+				height: 400px;
 				border-radius: 12px;
 				background: #ffffff;
 				border: 0px solid var(--grid);
@@ -499,7 +507,7 @@
 					padding-right: 0;
 				}
 				.carousel-video {
-					height: 250px;
+					height: 320px;
 				}
 				td,
 				tbody th {
@@ -533,7 +541,7 @@
 					font-size: 24px;
 				}
 				.carousel-video {
-					height: 200px;
+					height: 260px;
 				}
 				.carousel-slide {
 					padding: 0 10px;
@@ -609,12 +617,12 @@
 		<!-- Section 2: Input Image and Motion Carousel -->
 		<section class="carousel-section" id="intro-carousel">
 			<div class="wrap">
-				<div style="max-width: 900px; margin: 0 auto 40px auto; text-align: center;">
-					<p style="font-size: 18px; line-height: 1.6; color: var(--text); margin: 0;">
+				<div style="max-width: 970px; margin: 0 auto 30px auto; text-align: center;">
+					<p style="font-size: 18px; line-height: 1.4; color: var(--text); margin: 0;">
 						<img src="assets/images/logo_transparent.png" 
              				 alt="KineMask" 
              				 class="inline-logo">
-							 an approach for physics-guided video generation that enables realistic rigid body control and interactions. Given a <span style="color: var(--accent); font-style: italic;">single image and a specified object velocity</span>, KineMask generates videos with inferred motions and future object interactions.
+							 an approach for physics-guided video generation that enables realistic rigid body control and interactions. Given a <span style="color: var(--accent); font-style: italic;">single image and an object velocity</span>, KineMask generates videos with inferred motions and future <span style="color: var(--accent); font-style: italic;">object interactions</span>, predicting dynamics from an input image and the generation of complex effects.
 					</p>
 				</div>
 				<div class="carousel-container">
@@ -705,8 +713,8 @@
 		<!-- Paper Abstract -->
 		<section class="hero-section">
 			<div class="wrap">
-				<h2 class="carousel-title" style="font-size: 28px; font-weight: 600; margin-bottom: 40px;">Abstract</h2>
-				<div style="max-width: 800px; margin: 0 auto; text-align: justify;">
+				<h2 class="carousel-title" style="font-size: 28px; font-weight: 600; margin-bottom: 16px;">Abstract</h2>
+				<div style="max-width: 1000px; margin: 0 auto; text-align: justify;">
 					<p style="font-size: 15px; line-height: 1.5; color: var(--muted); margin: 0; font-weight: 400; letter-spacing: 0.3px;">
 						Recent models for video generation have achieved remarkable progress and are now deployed in film, social media production, and advertising. Beyond their creative potential, such models also hold promise as world simulators for robotics and embodied decision making. Despite strong advances, however, current approaches still struggle to generate physically plausible object interactions and lack physics-grounded control mechanisms. To address this limitation, we introduce <img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo">, an approach for physics-guided video generation that enables realistic rigid body control, interactions, and effects. Given a single image and a specified object velocity, our method generates videos with inferred motions and future object interactions. We propose a two-stage training strategy that gradually removes future motion supervision via object masks. Using this strategy we train video diffusion models (VDMs) on synthetic scenes of simple interactions and demonstrate significant improvements of object interactions in real scenes. Furthermore, <img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> integrates low-level motion control with high-level textual conditioning via predictive scene descriptions, leading to effective support for synthesis of complex dynamical phenomena. Extensive experiments show that our method achieves strong improvements over recent models of comparable size. Ablation studies further highlight the complementary roles of low-and high-level conditioning in VDMs.
 					</p>
@@ -715,16 +723,27 @@
 		</section>
 
 		<!-- Research Overview -->
-		<section class="carousel-section">
+		<section class="pipeline-section">
 			<div class="wrap">
-				<h2 class="carousel-title">Pipeline</h2>
+				<h2 class="carousel-title" style="margin-bottom: 16px;">Method Overview</h2>
 				<div style="max-width: 1000px; margin: 0 auto; text-align: center;">
-					<div style="margin-bottom: 30px;">
+					<div style="margin-bottom: 16px;">
+						<img src="assets/images/teaser_image.jpg" alt="Research overview visualization" style="width: 100%; height: auto; max-height: 500px; object-fit: contain; border-radius: 12px; border: 1px solid var(--grid);" />
+					</div>
+					<div style="max-width: 1000px; margin: 0 auto; text-align: left;">
+						<p style="font-size: 16px; line-height: 1.5; color: var(--text);">
+							• We enable object-based control with a novel training strategy. Paired with synthetic data constructed for the task, <img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> enables pretrained diffusion models to synthesize realistic <span style="color: var(--accent); font-style: italic;">object interactions</span> in real-world input scenes.
+						</p>
+					</div>
+				</div>
+				<h2 class="carousel-title" style="margin-bottom: 16px;">KineMask Pipeline</h2>
+				<div style="max-width: 1000px; margin: 0 auto; text-align: center;">
+					<div style="margin-bottom: 16px;">
 						<img src="assets/images/Architecture.png" alt="Research overview visualization" style="width: 100%; height: auto; max-height: 500px; object-fit: contain; border-radius: 12px; border: 1px solid var(--grid);" />
 					</div>
-					<div style="max-width: 800px; margin: 0 auto; text-align: left;">
-						<p style="font-size: 16px; line-height: 1.7; color: var(--text);">
-							We encode our <em>low-level</em> control signal as a mask encoding the instantaneous velocity of the moving objects for each frame, to train a ControlNet (left) in two stages using Blender-generated videos of objects in motion. In the first one, we train with all frames, whereas in the second one, we randomly drop part of the final frames. We also provide a <em>high-level</em> textual control extracted by a VLM. At inference (right), we construct the low-level conditioning with SAM and use GPT to infer high-level outcomes of object motion from a single frame.
+					<div style="max-width: 1000px; margin: 0 auto; text-align: left;">
+						<p style="font-size: 16px; line-height: 1.5; color: var(--text);">
+							• We encode our <span style="color: var(--accent); font-style: italic;">low-level</span> control signal as a <span style="color: var(--accent); font-style: italic;">mask encoding the instantaneous velocity</span> of the moving objects for each frame, to train a ControlNet (left) in two stages using <span style="color: var(--accent); font-style: italic;">Blender-generated videos</span> of objects in motion. In the first one, we train with all frames, whereas in the second one, we randomly drop part of the final frames. We also provide a <em>high-level</em> textual control extracted by a VLM. At inference (right), we construct the low-level conditioning with SAM and use GPT to infer high-level outcomes of object motion from a single frame.
 						</p>
 					</div>
 				</div>
