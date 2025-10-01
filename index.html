@@ -453,6 +453,42 @@
 			.carousel-dot.active {
 				background: var(--accent);
 			}
+			/* Three-column video overlay labels */
+			.tri-label-video {
+				position: relative;
+			}
+			.tri-label-video .tri-label {
+				position: absolute;
+				top: 8px;
+				transform: translateX(-50%);
+				background: color-mix(in oklab, var(--bg) 60%, transparent);
+				border: 1px solid var(--grid);
+				color: var(--text);
+				padding: 4px 8px;
+				border-radius: 6px;
+				font-size: 13px;
+				font-weight: 600;
+				pointer-events: none;
+				backdrop-filter: blur(4px);
+			}
+			/* Titles above the 3-column video */
+			.tri-label-row {
+				display: flex;
+				justify-content: space-between;
+				gap: 20px;
+				margin: 0 auto 8px auto;
+				max-width: 1000px;
+			}
+			.tri-label-chip {
+				flex: 1;
+				text-align: center;
+				background: var(--grid);
+				color: var(--text);
+				padding: 6px 8px;
+				border-radius: 6px;
+				font-size: 13px;
+				font-weight: 600;
+			}
 			.examples-grid {
 				display: grid;
 				grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -618,7 +654,7 @@
 		<section class="carousel-section" id="intro-carousel">
 			<div class="wrap">
 				<div style="max-width: 970px; margin: 0 auto 30px auto; text-align: center;">
-					<p style="font-size: 18px; line-height: 1.4; color: var(--text); margin: 0;">
+					<p style="font-size: 18px; font-weight:400; line-height: 1.4; color: var(--text); margin: 0;">
 						<img src="assets/images/logo_transparent.png" 
              				 alt="KineMask" 
              				 class="inline-logo">
@@ -731,7 +767,7 @@
 						<img src="assets/images/teaser_image.jpg" alt="Research overview visualization" style="width: 100%; height: auto; max-height: 500px; object-fit: contain; border-radius: 12px; border: 1px solid var(--grid);" />
 					</div>
 					<div style="max-width: 1000px; margin: 0 auto; text-align: left;">
-						<p style="font-size: 16px; line-height: 1.5; color: var(--text);">
+						<p style="font-size: 16px; font-weight:400; line-height: 1.5; color: var(--text);">
 							• We enable object-based control with a novel training strategy. Paired with synthetic data constructed for the task, <img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> enables pretrained diffusion models to synthesize realistic <span style="color: var(--accent); font-style: italic;">object interactions</span> in real-world input scenes.
 						</p>
 					</div>
@@ -742,7 +778,7 @@
 						<img src="assets/images/Architecture.png" alt="Research overview visualization" style="width: 100%; height: auto; max-height: 500px; object-fit: contain; border-radius: 12px; border: 1px solid var(--grid);" />
 					</div>
 					<div style="max-width: 1000px; margin: 0 auto; text-align: left;">
-						<p style="font-size: 16px; line-height: 1.5; color: var(--text);">
+						<p style="font-size: 16px; font-weight:400;line-height: 1.5; color: var(--text);">
 							• We encode our <span style="color: var(--accent); font-style: italic;">low-level</span> control signal as a <span style="color: var(--accent); font-style: italic;">mask encoding the instantaneous velocity</span> of the moving objects for each frame, to train a ControlNet (left) in two stages using <span style="color: var(--accent); font-style: italic;">Blender-generated videos</span> of objects in motion. In the first one, we train with all frames, whereas in the second one, we randomly drop part of the final frames. We also provide a <em>high-level</em> textual control extracted by a VLM. At inference (right), we construct the low-level conditioning with SAM and use GPT to infer high-level outcomes of object motion from a single frame.
 						</p>
 					</div>
@@ -752,7 +788,7 @@
 		<section class="hero-section">
 			<div class="wrap">
 				<h2 class="carousel-title">Low Level Motion Control</h2>
-				<div style="display: flex; gap: 20px; max-width: 1200px; margin: 0 auto; justify-content: center;">
+				<div style="display: flex; gap: 20px; max-width: 1300px; margin: 0 auto; justify-content: center;">
 					<div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
 						<div class="method-label" style="font-size: 14px;">Direction</div>
 						<video style="width: 100%; height: 300px; border-radius: 12px; background: #ffffff; border: 0px solid var(--grid);" controls preload="metadata" muted autoplay loop>
@@ -772,15 +808,39 @@
 						</video>
 					</div>
 				</div>
-				<div style="max-width: 1000px; margin: 14px auto 0 auto; text-align: center;">
-					<p style="font-size: 16px; line-height: 1.5; color: var(--muted); margin: 0;">
+				<div style="max-width: 1300px; margin: 14px auto 0 auto; text-align: center;">
+					<p style="font-size: 16x; font-weight:350; line-height: 1.5; color: var(--muted); margin: 0;">
 						<img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> can perform low-level motion control, moving <span style="color: var(--accent); font-style: italic;">different objects</span> on different <span style="color: var(--accent); font-style: italic;">degrees</span> of freedom and <span style="color: var(--accent); font-style: italic;">speed</span>. Despite being trained on basic synthetic data, it generalizes motion control to real-world scenes. <strong><u>Multiple objects control examples comming soon !!!</u></strong>
 					</p>
 				</div>
 			</div>
 		</section>
 
-<!-- Examples Grid -->
+		<!-- Qualitatives -->
+		<section class="pipeline-section">
+			<div class="wrap">
+				<h2 class="carousel-title" style="margin-bottom: 16px;">Object Interactions - Emergence of Causality</h2>
+				<div style="max-width: 1000px; margin: 0 auto; text-align: left; font-weight:400;">
+					<p style="font-size: 16px; line-height: 1.5; color: var(--text);">
+						<img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> trained on <span style="color: var(--accent); font-style: italic;">object interactions</span> and tested with <span style="color: var(--accent); font-style: italic;">three different velocities</span> on a real scene. As velocity increases, the resulting interactions also change, indicating that the <span style="color: var(--accent); font-style: italic;">model captures the causal structure of motion</span>. In particular, the final position of the second television varies with the velocity of the first, moving further if the first hits it at higher speeds. This property is valuable for world modeling, as it <span style="color: var(--accent); font-style: italic;">enables the analysis of different outcomes</span> of object interactions and supports informed planning.
+					</p>
+				</div>
+				<div style="max-width: 1000px; margin: 0 auto; text-align: center;">
+					<div class="tri-label-row">
+						<div class="tri-label-chip">Low Velocity</div>
+						<div class="tri-label-chip">Medium Velocity</div>
+						<div class="tri-label-chip">High Velocity</div>
+					</div>
+					<div class="tri-label-video" style="width: 100%; height: auto; max-height: 500px;">
+						<video style="width: 100%; height: auto; object-fit: contain; border-radius: 12px; border: 1px solid var(--grid); background: #ffffff;" controls preload="metadata" muted autoplay loop playsinline>
+							<source src="assets/videos/causality.mov" type="video/mp4">
+						</video>
+					</div>
+				</div>
+			</div>
+		</section>
+
+<!-- Examples Grid 
 		<section class="hero-section">
 			<div class="wrap">
 				<h2 class="carousel-title">Examples</h2>
@@ -836,6 +896,7 @@
 				</div>
 			</div>
 		</section>
+-->
 		<!-- Teaser Video -->
 		<section class="hero-section">
 			<div class="wrap">
