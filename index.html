@@ -7,16 +7,6 @@
 		<link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
 		<style>
 			:root {
-				--bg: #0b0e13;
-				--card: #121722;
-				--muted: #9aa4b2;
-				--text: #e9eef5;
-				--accent: #7bc4ff;
-				--grid: #1b2230;
-				--btn: #1a73e8;
-				--btnText: #fff;
-			}
-			[data-theme="light"] {
 				--bg: #f6f7fb;
 				--card: #ffffff;
 				--muted: #64748b;
@@ -313,24 +303,12 @@
 				height: 16px;
 				fill: currentColor;
 			}
-			[data-theme="light"] .hero-btn {
-				background: #ffffff;
-				color: #374151;
-				border: 1px solid #e5e7eb;
-			}
-			[data-theme="light"] .hero-btn:hover {
-				background: #f9fafb;
-			}
 			.hero-btn.disabled {
 				background: #f3f4f6;
 				color: #9ca3af;
 				cursor: not-allowed;
 				pointer-events: none;
 				opacity: 0.6;
-			}
-			[data-theme="light"] .hero-btn.disabled {
-				background: #f3f4f6;
-				color: #9ca3af;
 			}
 			.carousel-section {
 				padding: 60px 0;
@@ -599,17 +577,6 @@
 		<!-- Section 1: KineMask Overview -->
 		<section class="hero-section">
 			<div class="wrap">
-				<!-- Theme Toggle -->
-				<div style="position: absolute; top: 15px; right: 15px; z-index: 1000;">
-					<button
-						id="toggleTheme"
-						style="padding: 8px 15px; min-width: 120px; background: var(--card); color: var(--text); border: 1px solid var(--grid); border-radius: 8px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s all ease;"
-						title="Toggle theme"
-					>
-						<span id="theme-icon">🌙</span>
-						<span id="theme-text">Dark</span>
-					</button>
-				</div>
 				
 				<div class="hero-logo-title">
 					<!-- Logo -->
@@ -1301,42 +1268,6 @@
 					)
 				);
 
-			const root = document.documentElement;
-			const saved = localStorage.getItem("pv-theme");
-			if (saved) {
-				root.setAttribute("data-theme", saved);
-			}
-			
-			// Initialize theme button
-			const currentTheme = root.getAttribute("data-theme") || "dark";
-			const themeIcon = document.getElementById("theme-icon");
-			const themeText = document.getElementById("theme-text");
-			if (currentTheme === "light") {
-				themeIcon.textContent = "☀️";
-				themeText.textContent = "Light";
-			} else {
-				themeIcon.textContent = "🌙";
-				themeText.textContent = "Dark";
-			}
-			document
-				.getElementById("toggleTheme")
-				.addEventListener("click", () => {
-					const cur = root.getAttribute("data-theme");
-					const next = cur === "light" ? "dark" : "light";
-					root.setAttribute("data-theme", next);
-					localStorage.setItem("pv-theme", next);
-					
-					// Update button text and icon
-					const themeIcon = document.getElementById("theme-icon");
-					const themeText = document.getElementById("theme-text");
-					if (next === "light") {
-						themeIcon.textContent = "☀️";
-						themeText.textContent = "Light";
-					} else {
-						themeIcon.textContent = "🌙";
-						themeText.textContent = "Dark";
-					}
-				});
 
 			// Carousel functionality
 			let slideIndex = 0;
