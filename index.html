@@ -345,7 +345,7 @@
 			}
 			.carousel-container {
 				position: relative;
-				max-width: 1300px;
+				max-width: 900px;
 				margin: 0 auto;
 				overflow: hidden;
 				padding: 0;
@@ -584,8 +584,8 @@
 				  
 					<!-- Title -->
 					<h1 class="hero-title">
-					  Learning to Generate Object Interactions<br>
-					  with Physics-Guided Video Diffusion
+					Learning to Generate Rigid Body Interactions<br>
+					with Video Diffusion Models
 					</h1>
 				</div>
 				<p class="hero-authors">
@@ -614,6 +614,7 @@
 						Data (Coming Soon)
 					</span>
 				</div>
+
 				
 				
 
@@ -625,22 +626,18 @@
 						<img src="assets/images/logo_transparent.png" 
              				 alt="KineMask" 
              				 class="inline-logo">
-							 an approach for physics-guided video generation that enables realistic rigid body control and interactions. Given a <span style="color: var(--accent); font-style: italic;">single image and an object velocity</span>, KineMask generates videos with inferred motions and future <span style="color: var(--accent); font-style: italic;">object interactions</span>, predicting dynamics from an input image and the generation of complex effects.
+							 an approach for video generation that enables realistic rigid body control and interactions. Given a <span style="color: var(--accent); font-style: italic;">single image and an object velocity</span>, KineMask generates videos with inferred motions and future <span style="color: var(--accent); font-style: italic;">object interactions</span>, predicting dynamics from an input image and the generation of complex effects.
 					</p>
 				</div>
 				<div class="carousel-container">
 					<div class="carousel-wrapper" id="carouselWrapper">
+
 						<!-- Slide 1 -->
 						<div class="carousel-slide">
 							<div class="carousel-content">
-								<!-- <div class="carousel-left">
-									<p class="carousel-description">
-										Our method takes a single input image and a simple motion indication (red dot and arrow) to generate realistic object interactions. The motion cue guides the video diffusion model to create physically plausible dynamics.
-									</p>
-								</div> -->
 								<div class="carousel-right">
 									<video class="carousel-video" controls preload="metadata" muted autoplay loop>
-										<source src="assets/videos/carousel_coffee.mov" type="video/mp4">
+										<source src="assets/videos/carrousel_milk.mp4" type="video/mp4">
 									</video>
 								</div>
 							</div>
@@ -649,14 +646,19 @@
 						<!-- Slide 2 -->
 						<div class="carousel-slide">
 							<div class="carousel-content">
-								<!-- <div class="carousel-left">
-									<p class="carousel-description">
-										The KineMask approach encodes both direction and velocity information in an intuitive mask format, allowing for precise control over object motion trajectories and collision dynamics.
-									</p>
-								</div> -->
 								<div class="carousel-right">
 									<video class="carousel-video" controls preload="metadata" muted autoplay loop>
 										<source src="assets/videos/carousel_juice.mov" type="video/mp4">
+									</video>
+								</div>
+							</div>
+						</div>
+
+						<div class="carousel-slide">
+							<div class="carousel-content">
+								<div class="carousel-right">
+									<video class="carousel-video" controls preload="metadata" muted autoplay loop>
+										<source src="assets/videos/carrousel_fire.mov" type="video/mp4">
 									</video>
 								</div>
 							</div>
@@ -665,11 +667,6 @@
 						<!-- Slide 3 -->
 						<div class="carousel-slide">
 							<div class="carousel-content">
-								<!-- <div class="carousel-left">
-									<p class="carousel-description">
-										From collision scenarios to complex multi-object interactions, our system generates temporally consistent videos with realistic physics, maintaining object permanence and natural motion.
-									</p>
-								</div> -->
 								<div class="carousel-right">
 									<video class="carousel-video" controls preload="metadata" muted autoplay loop>
 										<source src="assets/videos/carousel_olla.mov" type="video/mp4">
@@ -680,11 +677,6 @@
 						<!-- Slide 4 -->
 						<div class="carousel-slide">
 							<div class="carousel-content">
-								<!-- <div class="carousel-left">
-									<p class="carousel-description">
-										From collision scenarios to complex multi-object interactions, our system generates temporally consistent videos with realistic physics, maintaining object permanence and natural motion.
-									</p>
-								</div> -->
 								<div class="carousel-right">
 									<video class="carousel-video" controls preload="metadata" muted autoplay loop>
 										<source src="assets/videos/carousel_plant.mov" type="video/mp4">
@@ -708,7 +700,7 @@
 					<button class="carousel-dot active" onclick="currentSlide(1)"></button>
 					<button class="carousel-dot" onclick="currentSlide(2)"></button>
 					<button class="carousel-dot" onclick="currentSlide(3)"></button>
-					<button class="carousel-dot" onclick="currentSlide(4)"></button>
+					<!-- <button class="carousel-dot" onclick="currentSlide(4)"></button> -->
 				</div>
 			</div>
 		</section>
@@ -719,7 +711,7 @@
 				<h2 class="carousel-title" style="font-size: 28px; font-weight: 600; margin-bottom: 16px;">Abstract</h2>
 				<div style="max-width: 1000px; margin: 0 auto; text-align: justify;">
 					<p style="font-size: 15px; line-height: 1.5; color: var(--muted); margin: 0; font-weight: 400; letter-spacing: 0.3px;">
-						Recent models for video generation have achieved remarkable progress and are now deployed in film, social media production, and advertising. Beyond their creative potential, such models also hold promise as world simulators for robotics and embodied decision making. Despite strong advances, however, current approaches still struggle to generate physically plausible object interactions and lack physics-grounded control mechanisms. To address this limitation, we introduce <img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo">, an approach for physics-guided video generation that enables realistic rigid body control, interactions, and effects. Given a single image and a specified object velocity, our method generates videos with inferred motions and future object interactions. We propose a two-stage training strategy that gradually removes future motion supervision via object masks. Using this strategy we train video diffusion models (VDMs) on synthetic scenes of simple interactions and demonstrate significant improvements of object interactions in real scenes. Furthermore, <img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> integrates low-level motion control with high-level textual conditioning via predictive scene descriptions, leading to effective support for synthesis of complex dynamical phenomena. Extensive experiments show that our method achieves strong improvements over recent models of comparable size. Ablation studies further highlight the complementary roles of low-and high-level conditioning in VDMs.
+						Recent video generation models have achieved remarkable progress and are now deployed in film, social media production, and advertising. Beyond their creative potential, such models also hold promise as world simulators for robotics and embodied decision making. Despite strong advances, however, current approaches still struggle to generate physically plausible object interactions and lack object-level control mechanisms. To address these limitations, we introduce <img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo">, an approach for video generation that enables realistic rigid body control, interactions, and effects. Given a single image and a specified object velocity, our method generates videos with inferred motions and future object interactions. We propose a two-stage training strategy that gradually removes future motion supervision via object masks. Using this strategy we train video diffusion models (VDMs) on synthetic scenes of simple interactions and demonstrate significant improvements of object interactions in real scenes. Furthermore, <img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> integrates low-level motion control with high-level textual conditioning via predicted scene descriptions, leading to support for synthesis of complex dynamical phenomena. Our experiments show that <img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> achieves strong improvements over recent models of comparable size. Ablation studies further highlight the complementary roles of low- and high-level conditioning in VDMs. Our code, model, and data will be made publicly available.
 					</p>
 				</div>
 			</div>
@@ -747,7 +739,7 @@
 						</p>
 					</div>
 					<div style="margin-bottom: 16px;">
-						<img src="assets/images/Architecture.png" alt="Research overview visualization" style="width: 100%; height: auto; max-height: 500px; object-fit: contain; border-radius: 12px; border: 1px solid var(--grid);" />
+						<img src="assets/images/architecture_V2.png" alt="Research overview visualization" style="width: 100%; height: auto; max-height: 500px; object-fit: contain; border-radius: 12px; border: 1px solid var(--grid);" />
 					</div>
 				</div>
 				<h2 class="carousel-title" style="margin-bottom: 16px;">Training Data</h2>
@@ -775,7 +767,7 @@
 				<h2 class="carousel-title">Low Level Motion Control</h2>
 				<div style="max-width: 1000px; margin: 0 auto 25px auto; text-align: center;">
 					<p style="font-size: 16x; font-weight:400; line-height: 1.5; color: var(--muted); margin: 0;">
-						<img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> can perform low-level motion control, moving <span style="color: var(--accent); font-style: italic;">different objects</span> on different <span style="color: var(--accent); font-style: italic;">degrees</span> of freedom and <span style="color: var(--accent); font-style: italic;">speed</span>. Despite being trained on basic synthetic data, it generalizes motion control to real-world scenes. <strong><u>Multiple objects control examples coming soon !!!</u></strong>
+						<img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> can perform low-level motion control, moving <span style="color: var(--accent); font-style: italic;">different objects</span> on different <span style="color: var(--accent); font-style: italic;">degrees</span> of freedom and <span style="color: var(--accent); font-style: italic;">speed</span>. Despite being trained on basic synthetic data, it generalizes motion control to real-world scenes. 
 					</p>
 				</div>
 				<div style="display: flex; gap: 20px; max-width: 1300px; margin: 0 auto; justify-content: center;">
@@ -788,13 +780,13 @@
 					<div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
 						<div class="method-label" style="font-size: 14px;">Speed</div>
 						<video style="width: 100%; height: 300px; border-radius: 12px; background: #ffffff; border: 0px solid var(--grid);" controls preload="metadata" muted autoplay loop>
-							<source src="assets/videos/control_vel.mov" type="video/mp4">
+							<source src="assets/videos/control_vel.mp4" type="video/mp4">
 						</video>
 					</div>
 					<div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
 						<div class="method-label" style="font-size: 14px;">Object</div>
 						<video style="width: 100%; height: 300px; border-radius: 12px; background: #ffffff; border: 0px solid var(--grid);" controls preload="metadata" muted autoplay loop>
-							<source src="assets/videos/control_obj.mov" type="video/mp4">
+							<source src="assets/videos/control_obj.mp4" type="video/mp4">
 						</video>
 					</div>
 				</div>
@@ -807,19 +799,37 @@
 				<h2 class="carousel-title" style="margin-bottom: 16px;">Object Interactions - Emergence of Causality</h2>
 				<div style="max-width: 1000px; margin: 0 auto; text-align: left; font-weight:400;">
 					<p style="font-size: 16px; line-height: 1.5; color: var(--text);">
-						<img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> trained on <span style="color: var(--accent); font-style: italic;">object interactions</span> and tested with <span style="color: var(--accent); font-style: italic;">three different velocities</span> on a real scene. As velocity increases, the resulting interactions also change, indicating that the <span style="color: var(--accent); font-style: italic;">model captures the causal structure of motion</span>. In particular, the final position of the second television varies with the velocity of the first, moving further if the first hits it at higher speeds. This property is valuable for world modeling, as it <span style="color: var(--accent); font-style: italic;">enables the analysis of different outcomes</span> of object interactions and supports informed planning.
+						<img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> trained on Interactions and tested with different inputs on a Real World scene with interacting objects. Left, as velocity increases, the interactions also change, indicating that the model captures causality of collisions. Right, with the same velocity, the different final position of the moving object demonstrates understanding of mass in collisions. Note that this result is challenging for drag-based methods since they imply prior knowledge of the object final position. <img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> instead maps different target positions to the same input, depending on the environment.
 					</p>
 				</div>
-				<div style="max-width: 1000px; margin: 0 auto; text-align: center;">
-					<div class="tri-label-row">
-						<div class="tri-label-chip">Low Velocity</div>
-						<div class="tri-label-chip">Medium Velocity</div>
-						<div class="tri-label-chip">High Velocity</div>
-					</div>
-					<div class="tri-label-video" style="width: 100%; height: auto; max-height: 500px;">
-						<video style="width: 100%; height: auto; object-fit: contain; border-radius: 12px; border: 1px solid var(--grid); background: #ffffff;" controls preload="metadata" muted autoplay loop playsinline>
-							<source src="assets/videos/causality.mov" type="video/mp4">
-						</video>
+				<div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+					<!-- Two column grid layout -->
+					<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; align-items: start;">
+						<!-- Left column: Three velocities -->
+						<div>
+							<div class="tri-label-row">
+								<div class="tri-label-chip">Low Velocity</div>
+								<div class="tri-label-chip">Medium Velocity</div>
+								<div class="tri-label-chip">High Velocity</div>
+							</div>
+							<div class="tri-label-video" style="width: 100%; height: auto; max-height: 500px;">
+								<video style="width: 100%; height: auto; object-fit: contain; border-radius: 12px; border: 1px solid var(--grid); background: #ffffff;" controls preload="metadata" muted autoplay loop playsinline>
+									<source src="assets/videos/causality_v2.mp4" type="video/mp4">
+								</video>
+							</div>
+						</div>
+						
+						<!-- Right column: Only medium velocity -->
+						<div>
+							<div style="display: flex; justify-content: center; margin-bottom: 8px;">
+								<div class="tri-label-chip">Medium Velocity</div>
+							</div>
+							<div class="tri-label-video" style="width: 100%; height: auto; max-height: 500px;">
+								<video style="width: 100%; height: auto; object-fit: contain; border-radius: 12px; border: 1px solid var(--grid); background: #ffffff;" controls preload="metadata" muted autoplay loop playsinline>
+									<source src="assets/videos/causality_v3.mp4" type="video/mp4">
+								</video>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -829,13 +839,13 @@
 				<h2 class="carousel-title">Generalization of Interactions to Different Scenarios</h2>
 				<div style="max-width: 1100px; margin: 0 auto 25px auto; text-align: center;">
 					<p style="font-size: 16x; font-weight:400; line-height: 1.5; color: var(--muted); margin: 0;">
-						<img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> generates realistic <span style="color: var(--accent); font-style: italic;">interactions with other objects</span> if they are present in the path of motion of the initial moving object showing a correct <span style="color: var(--accent); font-style: italic;">understanding of rigid body dynamics</span>. We also show complex interactions that require implicit 3D understanding, making a pot or a glass of juice fall and crash as a result of motion, and multi-object motion and interactions.<strong><u>(Examples coming soon!!)</u></strong>. We preserve the input <span style="color: var(--accent); font-style: italic;">motion direction and object consistency</span> in different types of real-world scenarios, showing a strong generalization of the knowledge acquired from simulated videos.
+						<img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> generates realistic <span style="color: var(--accent); font-style: italic;">interactions with other objects</span> if they are present in the path of motion of the initial moving object showing a correct <span style="color: var(--accent); font-style: italic;">understanding of rigid body dynamics</span>. We also show complex interactions that require implicit 3D understanding, making a pot or a glass of juice fall and crash as a result of motion, and multi-object motion and interactions. We preserve the input <span style="color: var(--accent); font-style: italic;">motion direction and object consistency</span> in different types of real-world scenarios, showing a strong generalization of the knowledge acquired from simulated videos.
 					</p>
 				</div>
 				<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; max-width: 1200px; margin: 0 auto; justify-items: center;">
 					<div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
 						<video style="width: 100%; height: 360px; border-radius: 12px; background: #ffffff; border: 0px solid var(--grid);" controls preload="metadata" muted autoplay loop>
-							<source src="assets/videos/qualitatives_first.mov" type="video/mp4">
+							<source src="assets/videos/qualitatives_first.mp4" type="video/mp4">
 						</video>
 					</div>
 					<div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
@@ -850,113 +860,19 @@
 					</div>
 					<div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
 						<video style="width: 100%; height: 360px; border-radius: 12px; background: #ffffff; border: 0px solid var(--grid);" controls preload="metadata" muted autoplay loop>
-							<source src="assets/videos/qualitatives_fourth.mov" type="video/mp4">
+							<source src="assets/videos/qualitatives_fourth.mp4" type="video/mp4">
 						</video>
 					</div>
 				</div>
 			</div>
 		</section>
-
-<!-- Examples Grid 
-		<section class="hero-section">
-			<div class="wrap">
-				<h2 class="carousel-title">Examples</h2>
-				<div class="examples-grid">
-					<div class="example-card">
-						<div style="position: relative;">
-							<video class="example-video" controls preload="metadata" muted>
-								<source src="assets/ours/coffee.mp4" type="video/mp4">
-							</video>
-							<span class="example-time">1:00</span>
-						</div>
-					</div>
-					<div class="example-card">
-						<div style="position: relative;">
-							<video class="example-video" controls preload="metadata" muted>
-								<source src="assets/ours/cajas.mp4" type="video/mp4">
-							</video>
-							<span class="example-time">1:00</span>
-						</div>
-					</div>
-					<div class="example-card">
-						<div style="position: relative;">
-							<video class="example-video" controls preload="metadata" muted>
-								<source src="assets/ours/kitchen.mp4" type="video/mp4">
-							</video>
-							<span class="example-time">1:00</span>
-						</div>
-					</div>
-					<div class="example-card">
-						<div style="position: relative;">
-							<video class="example-video" controls preload="metadata" muted>
-								<source src="assets/ours/rolls.mp4" type="video/mp4">
-							</video>
-							<span class="example-time">1:00</span>
-						</div>
-					</div>
-					<div class="example-card">
-						<div style="position: relative;">
-							<video class="example-video" controls preload="metadata" muted>
-								<source src="assets/ours/toaster.mp4" type="video/mp4">
-							</video>
-							<span class="example-time">1:00</span>
-						</div>
-					</div>
-					<div class="example-card">
-						<div style="position: relative;">
-							<video class="example-video" controls preload="metadata" muted>
-								<source src="assets/ours/toys.mp4" type="video/mp4">
-							</video>
-							<span class="example-time">1:00</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
--->
-		<!-- Teaser Video 
-		<section class="hero-section">
-			<div class="wrap">
-				<div style="max-width: 1000px; margin: 0 auto; text-align: center;">
-					<video style="width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--grid); background: #ffffff;" controls muted loop preload="metadata">
-						<source src="assets/videos/combined_videos_with_speed_labels.mp4" type="video/mp4">
-					</video>
-					<p style="font-size: 16px; line-height: 1.7; color: var(--text);">
-						The VDM with KineMask correctly identifies causality, with objects having different effects on the scene depending on their initial velocity. 
-					</p>
-				</div>
-			</div>
-		</section>
-		-->
 		
-
-		<!-- BibTeX Citation -->
-		<section class="carousel-section">
-			<div class="wrap">
-				<div style="display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 30px;">
-					<h2 class="carousel-title" style="margin: 0;">BibTeX</h2>
-					<button onclick="copyBibTeX()" class="hero-btn" title="Copy BibTeX to clipboard">
-						📋Copy
-					</button>
-				</div>
-				<div style="max-width: 800px; margin: 0 auto; text-align: left;">
-					<pre id="bibtex-code" style="background: var(--bg); border: 1px solid var(--grid); border-radius: 8px; padding: 20px; font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.4; color: var(--text); overflow-x: auto;"><code>@misc{romero2025learninggenerateobjectinteractions,
-  title={Learning to Generate Object Interactions with Physics-Guided Video Diffusion}, 
-  author={David Romero and Ariana Bermudez and Hao Li and Fabio Pizzati and Ivan Laptev},
-  year={2025},
-  eprint={2510.02284},
-  archivePrefix={arXiv},
-  primaryClass={cs.CV},
-  url={https://arxiv.org/abs/2510.02284}
-}</code></pre>
-				</div>
-			</div>
-		</section>
 
 		<!-- Section 5: Comparison Matrix -->
 		<header>
 			<div class="wrap">
 				<h1 style="font-size: 36px; font-weight: 700; text-align:center;">Comparison of our Method with Other Baselines</h1>
+
 		
 				<div class="button-descriptions" style="margin-top: 12px; color: var(--muted); font-size: 13px; line-height: 1.4;">
 					<strong>Controls:</strong>
@@ -1019,8 +935,46 @@
 		
 		</main>
 
+		<!-- Failure Cases: combined caption with three example videos -->
+		<section class="hero-section">
+			<div class="wrap">
+				<h2 class="carousel-title" style="margin-bottom: 12px;">Failure Cases</h2>
+				<div style="max-width: 1100px; margin: 0 auto 25px auto; text-align: center;">
+					<p style="font-size: 16x; font-weight:400; line-height: 1.5; color: var(--muted); margin: 0;">
+						In the first and second case, we have found that objects that do not have a considerable height tend to ignore others during their motion, thus a collision is not created. The third and fourth cases, show complex scenarios with many objects. This sometimes creates ambiguities, by resulting in object duplication or disappearance. We speculate here that the text prompt may also encourage ambiguity, due to the presence of multiple elements that can be associated to the same textual identifier.
+					</p>
+				</div>
+				<!-- Shared caption / label for the failure examples -->
+				<div style="max-width: 1100px; margin: 0 auto 16px auto; text-align: center;">
+				</div>
+				<div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; align-items: start;">
+					<div style="display: flex; flex-direction: column; gap: 8px;">
+						<video style="width: 100%; height: 320px; border-radius: 12px; background: #ffffff; border: 0px solid var(--grid);" controls preload="metadata" muted loop>
+							<source src="assets/ours/planta.mp4" type="video/mp4">
+						</video>
+					</div>
+					<div style="display: flex; flex-direction: column; gap: 8px;">
+						<video style="width: 100%; height: 320px; border-radius: 12px; background: #ffffff; border: 0px solid var(--grid);" controls preload="metadata" muted loop>
+							<source src="assets/ours/pan.mp4" type="video/mp4">
+						</video>
+					</div>
+					<div style="display: flex; flex-direction: column; gap: 8px;">
+						<video style="width: 100%; height: 320px; border-radius: 12px; background: #ffffff; border: 0px solid var(--grid);" controls preload="metadata" muted loop>
+							<source src="assets/ours/gasoline.mp4" type="video/mp4">
+						</video>
+					</div>
+					<div style="display: flex; flex-direction: column; gap: 8px;">
+						<video style="width: 100%; height: 320px; border-radius: 12px; background: #ffffff; border: 0px solid var(--grid);" controls preload="metadata" muted loop>
+							<source src="assets/ours/ajedrez.mp4" type="video/mp4">
+						</video>
+					</div>
+
+				</div>
+			</div>
+		</section>
+
 		<div class="footer">
-			Built for GitHub Pages. 
+			Supplementary Material for KineMask. All rights reserved.
 		</div>
 
 		<script src="assets/prompts.js"></script>
@@ -1030,6 +984,8 @@
 				{ key: "wan", label: "WAN2.2 5B" },
 				{ key: "force", label: "Force-Prompting" },
 				{ key: "cogvideox", label: "CogVideoX" },
+				{ key: "real_tora", label: "Tora" },
+				{ key: "motion_videos", label: "Motion-I2V" },
 			];
 
 			const DESCRIPTIONS = {
@@ -1092,13 +1048,6 @@
 			const headRow = document.getElementById("headRow");
 			const body = document.getElementById("body");
 
-			// Remove header row since we have labels above each video
-			// headRow.appendChild(document.createElement("th")).textContent = "Prompt";
-			// for (const col of COLUMNS) {
-			// 	const th = document.createElement("th");
-			// 	th.textContent = col.label;
-			// 	headRow.appendChild(th);
-			// }
 
 			function makeVideo(src, id) {
 				const v = document.createElement("video");
@@ -1139,16 +1088,8 @@
 			async function getVideoNames() {
 				// Complete list of video names (without .mp4 extension)
 				return [
-					"jugo", "jar_chair", "coffee", "batidora", "starbucks", "fruta",  "beer", "office", "milk", "plantas","salt", "skateboard", "toaster", "toys", "tv", "candles_dark"
+					"jugo", "jar_chair", "ducks", "llantas", "fruta",  "beer", "office", "milk", "plantas","salt", "skateboard", "toaster", "toys", "tv", "candles_dark"
 				];
-				//"ajedrez", "cafe","calabaza","cup", "camera", "candles", "candles_dark", "cars", 
-					// "cars2", "coffee", "cola",  "cupsteam", "dados",
-					// "drinks", "ducks", "eggs", "fruta", "gasoline", "gels",
-					// "hielo", "iphone", "ipod", "jabon", "jar_chair", "jugo",
-					// "juice", "juices", "kitchen", "llantas", "milk", "nintendo",
-					// "office", "ollas", "pan", "pinturas", "planta", "planta5", "plantas",
-					// "rolls", "salt", "sk8", "skateboard", "starbucks", "tequila", "toaster", 
-					// "toys", "trash", "tv", "vela"
 			}
 
 			async function buildFromAssets() {
