@@ -588,7 +588,7 @@
 					with Video Diffusion Models
 					</h1>
 				</div>
-				<p class="hero-authors">
+				<!--<p class="hero-authors">
 					<span style="color: var(--accent);">David Romero<sup>1</sup></span>, 
 					<span style="color: var(--accent);">Ariana Bermudez<sup>1</sup></span>, 
 					<span style="color: var(--accent);">Hao Li<sup>1,2</sup></span>, 
@@ -597,14 +597,14 @@
 				</p>
 				<p class="hero-status">
 					<sup>1</sup>MBZUAI UAE, <sup>2</sup>Pinscreen USA
-				</p>
+				</p>-->
 		
 				
 				<div class="hero-buttons">
-					<a href="https://arxiv.org/abs/2510.02284" class="hero-btn">
+					<span class="hero-btn disabled">
 						<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
 						Paper
-					</a>
+					</span>
 					<span class="hero-btn disabled">
 						<svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
 						Code (Coming Soon)
@@ -618,90 +618,45 @@
 				
 				
 
-		<!-- Section 2: Input Image and Motion Carousel -->
+		<!-- Section 2: Input Image and Motion Grid (2 rows x 3 cols, no CSS needed) -->
 		<section class="carousel-section" id="intro-carousel">
 			<div class="wrap">
-				<div style="max-width: 970px; margin: 0 auto 30px auto; text-align: center;">
-					<p style="font-size: 18px; font-weight:400; line-height: 1.4; color: var(--text); margin: 0;">
-						<img src="assets/images/logo_transparent.png" 
-             				 alt="KineMask" 
-             				 class="inline-logo">
-							 an approach for video generation that enables realistic rigid body control and interactions. Given a <span style="color: var(--accent); font-style: italic;">single image and an object velocity</span>, KineMask generates videos with inferred motions and future <span style="color: var(--accent); font-style: italic;">object interactions</span>, predicting dynamics from an input image and the generation of complex effects.
-					</p>
-				</div>
-				<div class="carousel-container">
-					<div class="carousel-wrapper" id="carouselWrapper">
-
-						<!-- Slide 1 -->
-						<div class="carousel-slide">
-							<div class="carousel-content">
-								<div class="carousel-right">
-									<video class="carousel-video" controls preload="metadata" muted autoplay loop>
-										<source src="assets/videos/carrousel_milk.mp4" type="video/mp4">
-									</video>
-								</div>
-							</div>
-						</div>
-						
-						<!-- Slide 2 -->
-						<div class="carousel-slide">
-							<div class="carousel-content">
-								<div class="carousel-right">
-									<video class="carousel-video" controls preload="metadata" muted autoplay loop>
-										<source src="assets/videos/carousel_juice.mov" type="video/mp4">
-									</video>
-								</div>
-							</div>
-						</div>
-
-						<div class="carousel-slide">
-							<div class="carousel-content">
-								<div class="carousel-right">
-									<video class="carousel-video" controls preload="metadata" muted autoplay loop>
-										<source src="assets/videos/carrousel_fire.mov" type="video/mp4">
-									</video>
-								</div>
-							</div>
-						</div>
-						
-						<!-- Slide 3 -->
-						<div class="carousel-slide">
-							<div class="carousel-content">
-								<div class="carousel-right">
-									<video class="carousel-video" controls preload="metadata" muted autoplay loop>
-										<source src="assets/videos/carousel_olla.mov" type="video/mp4">
-									</video>
-								</div>
-							</div>
-						</div>
-						<!-- Slide 4 -->
-						<div class="carousel-slide">
-							<div class="carousel-content">
-								<div class="carousel-right">
-									<video class="carousel-video" controls preload="metadata" muted autoplay loop>
-										<source src="assets/videos/carousel_plant.mov" type="video/mp4">
-									</video>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				<div class="carousel-nav">
-					<button class="carousel-btn" id="prevBtn" onclick="changeSlide(-1)">
-						<svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-					</button>
-					<button class="carousel-btn" id="nextBtn" onclick="changeSlide(1)">
-						<svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
-					</button>
-				</div>
-				
-				<div class="carousel-dots">
-					<button class="carousel-dot active" onclick="currentSlide(1)"></button>
-					<button class="carousel-dot" onclick="currentSlide(2)"></button>
-					<button class="carousel-dot" onclick="currentSlide(3)"></button>
-					<!-- <button class="carousel-dot" onclick="currentSlide(4)"></button> -->
-				</div>
+			<div style="max-width: 970px; margin: 0 auto 30px auto; text-align: center;">
+				<p style="font-size: 18px; font-weight:400; line-height: 1.4; color: var(--text); margin: 0;">
+				<img src="assets/images/logo_transparent.png"
+					alt="KineMask"
+					class="inline-logo">
+				an approach for video generation that enables realistic rigid body control and interactions. Given a
+				<span style="color: var(--accent); font-style: italic;">single image and an object velocity</span>,
+				KineMask generates videos with inferred motions and future
+				<span style="color: var(--accent); font-style: italic;">object interactions</span>, predicting dynamics from an input image and the generation of complex effects.
+				</p>
+			</div>
+		
+			<table style="width: 100%; max-width: 1500px; margin: 0 auto; border-collapse: separate; border-spacing: 0px;">
+				<tr>
+				  <td style="vertical-align: top; width: 33.33%;">
+					<video controls preload="metadata" muted autoplay loop playsinline
+						   style="width: 100%; height: auto; border-radius: 12px; display: block; object-fit: cover;">
+					  <source src="assets/videos/grid_1.mp4" type="video/mp4">
+					</video>
+				  </td>
+			  
+				  <td style="vertical-align: top; width: 33.33%;">
+					<video controls preload="metadata" muted autoplay loop playsinline
+						   style="width: 100%; height: auto; border-radius: 12px; display: block; object-fit: cover;">
+					  <source src="assets/videos/grid_2.mp4" type="video/mp4">
+					</video>
+				  </td>
+			  
+				  <td style="vertical-align: top; width: 33.33%;">
+					<video controls preload="metadata" muted autoplay loop playsinline
+						   style="width: 100%; height: auto; border-radius: 12px; display: block; object-fit: cover;">
+					  <source src="assets/videos/grid_3.mov" type="video/mp4">
+					</video>
+				  </td>
+				</tr>
+			  </table>
 			</div>
 		</section>
 
@@ -711,9 +666,31 @@
 				<h2 class="carousel-title" style="font-size: 28px; font-weight: 600; margin-bottom: 16px;">Abstract</h2>
 				<div style="max-width: 1000px; margin: 0 auto; text-align: justify;">
 					<p style="font-size: 15px; line-height: 1.5; color: var(--muted); margin: 0; font-weight: 400; letter-spacing: 0.3px;">
-						Recent video generation models have achieved remarkable progress and are now deployed in film, social media production, and advertising. Beyond their creative potential, such models also hold promise as world simulators for robotics and embodied decision making. Despite strong advances, however, current approaches still struggle to generate physically plausible object interactions and lack object-level control mechanisms. To address these limitations, we introduce <img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo">, an approach for video generation that enables realistic rigid body control, interactions, and effects. Given a single image and a specified object velocity, our method generates videos with inferred motions and future object interactions. We propose a two-stage training strategy that gradually removes future motion supervision via object masks. Using this strategy we train video diffusion models (VDMs) on synthetic scenes of simple interactions and demonstrate significant improvements of object interactions in real scenes. Furthermore, <img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> integrates low-level motion control with high-level textual conditioning via predicted scene descriptions, leading to support for synthesis of complex dynamical phenomena. Our experiments show that <img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> achieves strong improvements over recent models of comparable size. Ablation studies further highlight the complementary roles of low- and high-level conditioning in VDMs. Our code, model, and data will be made publicly available.
+						Recent video generation models have achieved remarkable progress and are now deployed in film, social media production, and advertising. Beyond their creative potential, such models also hold promise as world simulators for robotics and embodied decision making. Despite strong advances, current approaches still struggle to generate physically plausible object interactions and lack object-level control mechanisms. To address these limitations, we introduce <img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo">, an approach for video generation that enables realistic rigid body control, interactions, and effects. Given a single image and a specified object velocity, our method generates videos with inferred motions and future object interactions. We propose a two-stage training strategy that gradually removes future motion supervision via object masks. Using this strategy we train video diffusion models (VDMs) on synthetic scenes of simple interactions and demonstrate significant improvements and generalization to rigid body and hand-object interactions in real scenes. Furthermore, <img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> integrates low-level motion control with high-level textual conditioning via predicted scene descriptions, leading to support for synthesis of complex dynamical phenomena. Our experiments show that <img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> generalizes to different VDMs and achieves strong improvements over recent models of comparable size. Ablation studies further highlight the complementary roles of low- and high-level conditioning in VDMs.
 					</p>
 				</div>
+			</div>
+		</section>
+
+		<!-- Paper Video -->
+		<section class="hero-section">
+			<div class="wrap">
+			<h2 class="carousel-title" style="font-size: 28px; font-weight: 600; margin-bottom: 16px;">VIDEO</h2>
+		
+			<div style="max-width: 800px; margin: 0 auto; text-align: center;">
+				<video controls preload="metadata" playsinline
+					style="width: 100%; height: auto; border-radius: 12px; display: block; margin: 0 auto; background: #000;">
+				<source src="assets/videos/video.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+				</video>
+			</div>
+		
+			<!-- Optional small note under the video -->
+			<!--
+			<p style="max-width: 1100px; margin: 12px auto 0 auto; color: var(--muted); font-size: 14px;">
+				Short overview of KineMask and key results.
+			</p>
+			-->
 			</div>
 		</section>
 
@@ -836,7 +813,7 @@
 		</section>
 		<section class="hero-section">
 			<div class="wrap">
-				<h2 class="carousel-title">Generalization of Interactions to Different Scenarios</h2>
+				<h2 class="carousel-title">Generation of Interactions in Different Real-World Scenarios</h2>
 				<div style="max-width: 1100px; margin: 0 auto 25px auto; text-align: center;">
 					<p style="font-size: 16x; font-weight:400; line-height: 1.5; color: var(--muted); margin: 0;">
 						<img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> generates realistic <span style="color: var(--accent); font-style: italic;">interactions with other objects</span> if they are present in the path of motion of the initial moving object showing a correct <span style="color: var(--accent); font-style: italic;">understanding of rigid body dynamics</span>. We also show complex interactions that require implicit 3D understanding, making a pot or a glass of juice fall and crash as a result of motion, and multi-object motion and interactions. We preserve the input <span style="color: var(--accent); font-style: italic;">motion direction and object consistency</span> in different types of real-world scenarios, showing a strong generalization of the knowledge acquired from simulated videos.
@@ -845,7 +822,7 @@
 				<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; max-width: 1200px; margin: 0 auto; justify-items: center;">
 					<div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
 						<video style="width: 100%; height: 360px; border-radius: 12px; background: #ffffff; border: 0px solid var(--grid);" controls preload="metadata" muted autoplay loop>
-							<source src="assets/videos/qualitatives_first.mp4" type="video/mp4">
+							<source src="assets/videos/qualitatives_third_v2.mov" type="video/mp4">
 						</video>
 					</div>
 					<div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
@@ -855,15 +832,59 @@
 					</div>
 					<div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
 						<video style="width: 100%; height: 360px; border-radius: 12px; background: #ffffff; border: 0px solid var(--grid);" controls preload="metadata" muted autoplay loop>
-							<source src="assets/videos/qualitatives_third.mov" type="video/mp4">
+							<source src="assets/videos/video_olla.mp4" type="video/mp4">
 						</video>
 					</div>
 					<div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
 						<video style="width: 100%; height: 360px; border-radius: 12px; background: #ffffff; border: 0px solid var(--grid);" controls preload="metadata" muted autoplay loop>
-							<source src="assets/videos/qualitatives_fourth.mp4" type="video/mp4">
+							<source src="assets/videos/qualitatives_fourt_v2.mov" type="video/mp4">
 						</video>
 					</div>
 				</div>
+			</div>
+		</section>
+
+		<!-- Generalization to hand-object interactions -->
+		<section class="hero-section">
+			<div class="wrap">
+			<h2 class="carousel-title">Generalization to Hand-Object Interactions</h2>
+		
+			<div style="max-width: 900px; margin: 0 auto 25px auto;margin-top: -25px; text-align: center;">
+				<p style="font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--muted); margin: 0;">
+				<!-- Replace this sentence with yours -->
+				<img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> is able to use its knowledge obtained from the training process with synthetic data and combine it with its prior knowledge from the real-world and generalize to hand-object and hand-tool-object interaction.
+				</p>
+			</div>
+		
+			<div style="max-width: 800px; margin: 0 auto; text-align: center;">
+				<video controls preload="metadata" autoplay muted loop playsinline
+					style="width: 100%; height: auto; border-radius: 12px; display: block; margin: 0 auto; background: #000;">
+				<source src="assets/videos/hand.mov" type="video/mp4">
+				KineMask is able to use its knowledge obtained from the training process with synthetic data and combine it with its prior knowledge from the real-world and generalize to hand-object and hand-tool-object interaction.
+				</video>
+			</div>
+			</div>
+		</section>
+
+		<!-- Generalization to hand-object interactions -->
+		<section class="hero-section">
+			<div class="wrap">
+			<h2 class="carousel-title">Generalization to different Video Diffusion Models</h2>
+		
+			<div style="max-width: 900px; margin: 0 auto 25px auto; text-align: center;margin-top: -25px">
+				<p style="font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--muted); margin: 0;">
+				<!-- Replace this sentence with yours -->
+				Beyond CogVideoX, <img src="assets/images/logo_transparent.png" alt="KineMask" class="inline-logo"> generalizes to multiple Video Diffusion Models. We integrate KineMask on top of Wan2.2-5B and Cosmos2.5-2B Models, showing improvements in the generations of the original backbones.
+				</p>
+			</div>
+		
+			<div style="max-width: 800px; margin: 0 auto; text-align: center;">
+				<video controls preload="metadata" autoplay muted loop playsinline
+					style="width: 100%; height: auto; border-radius: 12px; display: block; margin: 0 auto; background: #000;">
+				<source src="assets/videos/diff_models.mp4" type="video/mp4">
+				KineMask is able to generalize its knowledge to hand-object and hand-tool-object interaction.
+				</video>
+			</div>
 			</div>
 		</section>
 		
@@ -955,7 +976,7 @@
 					</div>
 					<div style="display: flex; flex-direction: column; gap: 8px;">
 						<video style="width: 100%; height: 320px; border-radius: 12px; background: #ffffff; border: 0px solid var(--grid);" controls preload="metadata" muted loop>
-							<source src="assets/ours/pan.mp4" type="video/mp4">
+							<source src="assets/ours/book_failure.mp4" type="video/mp4">
 						</video>
 					</div>
 					<div style="display: flex; flex-direction: column; gap: 8px;">
@@ -1088,7 +1109,7 @@
 			async function getVideoNames() {
 				// Complete list of video names (without .mp4 extension)
 				return [
-					"jugo", "jar_chair", "ducks", "llantas", "fruta",  "beer", "office", "milk", "plantas","salt", "skateboard", "toaster", "toys", "tv", "candles_dark"
+					"jugo", "jar_chair", "fruta",  "beer", "office", "milk", "plantas", "skateboard", "toaster", "toys", "tv"
 				];
 			}
 
