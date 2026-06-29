@@ -22,7 +22,11 @@ conda activate cogvideo
 cd diffusers
 pip install -e .
 ```
-3. Downwload Pretrained Checkpoing
+3. Download Pretrained Checkpoint from first and second stage from
+```
+https://huggingface.co/Daromog/KineMask
 ```
 
-```
+## Inference
+
+   
