@@ -22,3 +22,7 @@ conda activate cogvideo
 cd diffusers
 pip install -e .
 ```
+3. Downwload Pretrained Checkpoing
+```
+
+```
