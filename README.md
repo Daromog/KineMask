@@ -9,3 +9,11 @@
 [![Project Page](https://img.shields.io/badge/Project-Page-green)](https://daromog.github.io/KineMask/)
 
 </div>
+
+## QuickStart
+1. First, clone this repository and install the dependencies:
+```
+git clone https://github.com/Daromog/KineMask.git
+conda env create -f cogvideo.yml
+conda activate cogvideo
+```
