@@ -17,3 +17,8 @@ git clone https://github.com/Daromog/KineMask.git
 conda env create -f cogvideo.yml
 conda activate cogvideo
 ```
+2. Install diffusers from source:
+```
+cd diffusers
+pip install -e .
+```
