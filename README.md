@@ -27,6 +27,6 @@ pip install -e .
 https://huggingface.co/Daromog/KineMask
 ```
 
-## Inference
+## Code Comming Soon...
 
    
